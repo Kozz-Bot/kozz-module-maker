@@ -1,17 +1,18 @@
-import { createHandlerInstance, Method, typeChecker } from './Schema';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const { addMethod, availableCommands } = createHandlerInstance();
+import { createHandlerInstance } from './Instance';
 
-addMethod('default', {
-	test: 'number[]',
-	myArg: 'boolean?',
-	obj: {
-		test: 'string',
-		key: 'number',
-		roled: 'string[]',
+const { addMethod, getCommandByName } = createHandlerInstance({
+	address: `${process.env.GATEWAY_URL}`,
+});
+
+addMethod({
+	name: 'default',
+	func: ({ animated }) => {},
+	args: {
+		animated: 'boolean?',
 	},
 });
 
-console.log(availableCommands);
-
-console.log(typeChecker(availableCommands[0].namedArgs));
+getCommandByName('default').namedArgs;

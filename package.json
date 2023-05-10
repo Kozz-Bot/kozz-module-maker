@@ -16,10 +16,12 @@
     "kozz-types": "/home/guigalleta/Projects/Kozz/kozz-types/",
     "nodemon": "^2.0.22",
     "typedoc": "^0.23.21",
-    "typescript": "^4.9.3"
+    "typescript": "^5.0.4"
   },
   "dependencies": {
-    "link-module-alias": "^1.2.0"
+    "dotenv": "^16.0.3",
+    "link-module-alias": "^1.2.0",
+    "socket.io-client": "^4.6.1"
   },
   "_moduleAliases": {
     "src": "dist"

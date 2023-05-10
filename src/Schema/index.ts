@@ -1,121 +1,67 @@
-/**
- * This type system was adapted from the following page:
- * https://stackoverflow.com/questions/60862509/typescript-types-from-array-to-object
- */
+export type PrimaryTypeString = 'string' | 'number' | 'boolean';
+export type ArrayTypeString =
+	| `${PrimaryTypeString}[]`
+	| `${PrimaryTypeString}[]?`;
 
-type ToObject<T> = T extends readonly [infer Key, infer type]
-	? Key extends PropertyKey
-		? { [P in Key]: type }
-		: never
+export type OptionalTypeString =
+	| `${ArrayTypeString}?`
+	| `${PrimaryTypeString}?`;
+
+export type TypeString =
+	| PrimaryTypeString
+	| ArrayTypeString
+	| OptionalTypeString;
+
+export type StringTypeVariants =
+	| 'string'
+	| 'string[]'
+	| 'string[]?'
+	| 'string?';
+
+export type NumberTypeVariants =
+	| 'number'
+	| 'number[]'
+	| 'number[]?'
+	| 'number?';
+
+export type BooleanTypeVariants =
+	| 'boolean'
+	| 'boolean[]'
+	| 'boolean[]?'
+	| 'boolean?';
+
+type ToPrimary<T extends TypeString> = T extends StringTypeVariants
+	? string
+	: T extends NumberTypeVariants
+	? number
+	: T extends BooleanTypeVariants
+	? boolean
 	: never;
 
-type ToObjectsArray<T> = {
-	[I in keyof T]: ToObject<T[I]>;
-};
+type ToArray<T extends ArrayTypeString> = T extends ArrayTypeString
+	? ToPrimary<T>[]
+	: ToPrimary<T>;
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-	k: infer I
-) => void
-	? I
+type ToOptional<T extends OptionalTypeString> = T extends ArrayTypeString
+	? ToArray<T> | undefined
+	: T extends OptionalTypeString
+	? ToPrimary<T> | undefined
+	: T extends PrimaryTypeString
+	? ToPrimary<T>
 	: never;
 
-// @ts-ignore
-type NamedArgs<ArrayArgs> = UnionToIntersection<ToObjectsArray<ArrayArgs>[number]>;
+type TypeFromString<T extends TypeString> = T extends OptionalTypeString
+	? ToOptional<T>
+	: T extends ArrayTypeString
+	? ToArray<T>
+	: T extends PrimaryTypeString
+	? ToPrimary<T>
+	: never;
 
-type BaseCommand = {
-	method: string;
-	immediateArg?: string;
-	namedArgs: Record<string, any>;
-	message: any;
-	boundaryId: string;
-};
-
-type CustomCommand<Method extends string, T> = BaseCommand & {
-	method: Method;
-	namedArgs: NamedArgs<T>;
-};
-
-export type Method<Method extends string, T> = {
-	method: Method;
-	namedArgs: NamedArgs<T>;
-};
-
-export const arrayToObject = <Args extends ReadonlyArray<any>>(args: Args) => {
-	const result: any = {};
-
-	for (const [name, arg] of args) {
-		result[name] = arg;
-	}
-
-	return result as NamedArgs<Args>;
-};
-
-export const createHandlerInstance = () => {
-	let command: BaseCommand = {
-		boundaryId: '',
-		message: '',
-		method: '',
-		namedArgs: {},
-		immediateArg: '',
-	};
-
-	const availableCommands: CustomCommand<any, any>[] = [];
-
-	const addMethod = <Name extends string, Args>(
-		methodName: Name,
-		namedArgs: NamedArgs<Args>
-	) => {
-		const method: Method<Name, Args> = {
-			method: methodName,
-			namedArgs,
-		};
-		availableCommands.push({
-			...command,
-			...method,
-		} as CustomCommand<Name, NamedArgs<Args>>);
-	};
-
-	return {
-		addMethod,
-		availableCommands,
-	};
-};
-
-type PrimitiveType = 'string' | 'number' | 'boolean';
-type ArrayType = `${PrimitiveType}[]`;
-type OptionalType = `${PrimitiveType}?` | `${ArrayType}?`;
-type Type = PrimitiveType | OptionalType | ArrayType | ObjectType;
-type ObjectType = {
-	[key: string]: Type;
-};
-
-const isArray = (type: Type): type is ArrayType => {
-	return typeof type === 'string' && type.includes('[]');
-};
-
-const isOptional = (type: Type): type is OptionalType => {
-	return typeof type === 'string' && type.endsWith('?');
-};
-
-type TypeDescriptor = {
-	type: string | Record<string, TypeDescriptor>;
-	array: boolean;
-	optional: boolean;
-};
-
-export const typeChecker = (type: Type): TypeDescriptor => {
-	if (typeof type === 'object') {
-		return Object.entries(type).reduce((acc, [key, value]): TypeDescriptor => {
-			return {
-				...acc,
-				[key]: typeChecker(value),
-			};
-		}, {} as TypeDescriptor);
-	}
-
-	return {
-		type: type.match(/([^\[\]?])+/)![0],
-		array: isArray(type),
-		optional: isOptional(type),
-	};
-};
+export type MethodCreator = <
+	const T extends { [key: string]: TypeString }
+>(args: {
+	name: string;
+	args: T;
+	func: (args: { [key in keyof T]: TypeFromString<T[key]> }) => void;
+}) => void;
