@@ -1,3 +1,5 @@
+import { MessageObj } from '../Message';
+
 export type PrimaryTypeString = 'string' | 'number' | 'boolean';
 export type ArrayTypeString =
 	| `${PrimaryTypeString}[]`
@@ -64,7 +66,10 @@ export type MethodCreator = <
 >(args: {
 	name: Name;
 	args: T;
-	func: (args: { [key in keyof T]: TypeFromString<T[key]> }) => void;
+	func: (
+		message: MessageObj,
+		args: { [key in keyof T]: TypeFromString<T[key]> }
+	) => void;
 }) => MethodMap<Name, T>;
 
 // @ts-ignore
@@ -77,7 +82,10 @@ export const createMethod: MethodCreator = ({ name, args, func }) => ({
 
 export type Method<T extends { [key: string]: TypeString }> = {
 	readonly args: T;
-	readonly func: (args: { [key in keyof T]: TypeFromString<T[key]> }) => void;
+	readonly func: (
+		message: MessageObj,
+		args: { [key in keyof T]: TypeFromString<T[key]> }
+	) => void;
 };
 
 export type MethodMap<

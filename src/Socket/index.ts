@@ -2,7 +2,8 @@ import { io } from 'socket.io-client';
 import { introduce } from './Messages/Introduction';
 import { type Command } from 'kozz-types';
 import { Method, TypeString } from '../Schema';
-import { isArgsObjectValid } from 'src/Validator';
+import { isArgsObjectValid } from '../Validator';
+import { createMessageObject } from '../Message';
 
 export const connect = (address: string) => {
 	const socket = io(address);
@@ -23,7 +24,8 @@ export const connect = (address: string) => {
 			if (Object.keys(methods).includes(command.method)) {
 				const actualMethod = methods[command.method];
 				if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
-					actualMethod.func(command.namedArgs);
+					const message = createMessageObject(socket, command);
+					actualMethod.func(message, command.namedArgs);
 				}
 			}
 		});
