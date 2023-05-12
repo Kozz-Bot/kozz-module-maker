@@ -59,9 +59,30 @@ type TypeFromString<T extends TypeString> = T extends OptionalTypeString
 	: never;
 
 export type MethodCreator = <
-	const T extends { [key: string]: TypeString }
+	const T extends { [key: string]: TypeString },
+	const Name extends string
 >(args: {
-	name: string;
+	name: Name;
 	args: T;
 	func: (args: { [key in keyof T]: TypeFromString<T[key]> }) => void;
-}) => void;
+}) => MethodMap<Name, T>;
+
+// @ts-ignore
+export const createMethod: MethodCreator = ({ name, args, func }) => ({
+	[name]: {
+		args,
+		func,
+	} as const,
+});
+
+export type Method<T extends { [key: string]: TypeString }> = {
+	readonly args: T;
+	readonly func: (args: { [key in keyof T]: TypeFromString<T[key]> }) => void;
+};
+
+export type MethodMap<
+	Name extends string,
+	T extends { [key: string]: TypeString }
+> = {
+	[key in `${Name}`]: Method<T>;
+};

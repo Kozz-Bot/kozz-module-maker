@@ -1,51 +1,25 @@
-import {
-	CustomCommand,
-	Method,
-	MethodCreator,
-	MethodFn,
-	MethodParams,
-	MethodParamsDescriptor,
-	MethodWithName,
-	NamedArgs,
-} from '../Schema';
-import { ToPrimitive, Type, typeChecker, TypeDescriptor } from '../Validator';
+import { Method, MethodCreator, TypeString } from '../Schema';
 import { connect } from '../Socket';
 
-type HandlerInitParams = {
+type HandlerInitParams<Methods extends Record<string, TypeString>> = {
+	name: string;
 	address: string;
+	methods: Record<string, Method<Methods>>;
 };
 
-export const createHandlerInstance = ({ address }: HandlerInitParams) => {
-	// List that will hold the methods
-	const availableCommands: CustomCommand<string, Record<string, Type>> = {};
+export const createHandlerInstance = <
+	Methods extends Record<string, TypeString>
+>({
+	address,
+	methods,
+	name,
+}: HandlerInitParams<Methods>) => {
+	const { socket, introduce, registerMethods } = connect(address);
 
-	const getAllCommands = (): MethodWithName<Record<string, Type>>[] => {
-		return Object.entries(availableCommands).map(([key, value]) => ({
-			method: value.method,
-			namedArgs: value.namedArgs,
-			methodName: key,
-		}));
-	};
+	introduce(name, methods);
+	// @ts-ignore
+	registerMethods(methods);
 
-	const getCommandByName = <Name extends string>(name: Name) => {
-		return availableCommands[name];
-	};
-
-	const { socket, introduce } = connect(address);
-
-	/**
-	 * Adds a new method to the module. It also communicates with the
-	 * gateway letting it know about the new method.
-	 * @param methodName
-	 * @param namedArgs
-	 * @param method
-	 */
-	const addMethod: MethodCreator = ({ args, func, name }) => {
-		introduce('test-lib', getAllCommands());
-	};
-
-	return {
-		addMethod,
-		getCommandByName,
-	};
+	const instance = {};
+	return instance;
 };
