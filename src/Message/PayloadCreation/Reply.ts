@@ -30,3 +30,20 @@ export const replyWithSticker = (
 	boundaryId: command.boundaryId,
 	contact: command.message.contact,
 });
+
+export const replyWithMedia = (
+	command: Command,
+	media: Media,
+	caption?: string
+): SendMessagePayload => ({
+	body: caption || '',
+	media: media,
+	chatId: command.message.fromHostAccount
+		? command.message.to
+		: command.message.from,
+	platform: 'WA',
+	timestamp: new Date().getTime(),
+	quoteId: command.message.id,
+	boundaryId: command.boundaryId,
+	contact: command.message.contact,
+});
