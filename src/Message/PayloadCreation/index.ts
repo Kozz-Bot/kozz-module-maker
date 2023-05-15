@@ -1,1 +1,1 @@
-export * from './ReplyWithText';
+export * from './Reply';

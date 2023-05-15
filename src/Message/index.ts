@@ -1,17 +1,25 @@
-import { Command } from 'kozz-types';
+import { Command, Media } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { replyWithText } from './PayloadCreation';
+import { replyWithText, replyWithSticker } from './PayloadCreation';
 
-export type MessageObj = {
-	reply: (text: string) => void;
-};
+export type MessageObj = ReturnType<typeof createMessageObject>;
 
 export const createMessageObject = (socket: Socket, command: Command) => {
 	const reply = (text: string) => {
 		socket.emit('reply_with_text', replyWithText(command, text));
 	};
+	const replySticker = (media: Media) => {
+		socket.emit('reply_with_sticker', replyWithSticker(command, media));
+	};
 
 	return {
-		reply,
+		rawCommand: command,
+		media: command.message.media,
+		quotedMessage: command.message.quotedMessage,
+		body: command.message.body,
+		reply: {
+			withText: reply,
+			withSticker: replySticker,
+		},
 	};
 };
