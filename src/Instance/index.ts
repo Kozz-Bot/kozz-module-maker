@@ -1,3 +1,4 @@
+import { Command } from 'kozz-types/dist';
 import { Method, MethodCreator, TypeString } from '../Schema';
 import { connect } from '../Socket';
 
@@ -7,6 +8,9 @@ type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	methods: Record<string, Method<Methods>>;
 };
 
+export type UseFn = (args: Command) => Command;
+export type OriginalFn = (args: Command) => any;
+
 export const createHandlerInstance = <
 	Methods extends Record<string, TypeString>
 >({
@@ -14,12 +18,22 @@ export const createHandlerInstance = <
 	methods,
 	name,
 }: HandlerInitParams<Methods>) => {
-	const { socket, introduce, registerMethods } = connect(address);
+	const moduleUseFns: UseFn[] = [];
+
+	const { socket, introduce, registerMethods } = connect(address, moduleUseFns);
 
 	introduce(name, methods);
 	// @ts-ignore
 	registerMethods(methods);
 
-	const instance = {};
+	const use = (useFn: UseFn) => {
+		moduleUseFns.push(useFn);
+		return instance;
+	};
+
+	const instance = {
+		use,
+	};
+
 	return instance;
 };

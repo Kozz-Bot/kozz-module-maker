@@ -1,3 +1,6 @@
+import { Command } from 'kozz-types';
+import { OriginalFn, UseFn } from './Instance';
+
 export function mapObject2<K extends string, A, B>(
 	object: { [P in K]: A },
 	mapper: (value: A) => B
@@ -12,3 +15,9 @@ export function mapObject2<K extends string, A, B>(
 	return result as { [P in K]: B };
 	// assert --> ^^^^^^^^^^^^^^^^^^
 }
+
+export const runUse = (useArr: UseFn[], args: Command) => {
+	return useArr.reduce((res, fn) => {
+		return fn(res);
+	}, args);
+};

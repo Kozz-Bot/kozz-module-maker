@@ -1,11 +1,13 @@
 import { io } from 'socket.io-client';
 import { introduce } from './Messages/Introduction';
 import { type Command } from 'kozz-types';
-import { Method, TypeString } from '../Schema';
+import { Method } from '../Schema';
 import { isArgsObjectValid } from '../Validator';
 import { createMessageObject } from '../Message';
+import { UseFn } from '../Instance';
+import { runUse } from 'src/util';
 
-export const connect = (address: string) => {
+export const connect = (address: string, moduleUseFns: UseFn[]) => {
 	const socket = io(address);
 
 	const introduceFn = <T extends Record<string, any>>(
@@ -24,7 +26,10 @@ export const connect = (address: string) => {
 			if (Object.keys(methods).includes(command.method)) {
 				const actualMethod = methods[command.method];
 				if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
-					const message = createMessageObject(socket, command);
+					const message = createMessageObject(
+						socket,
+						runUse(moduleUseFns, command)
+					);
 					actualMethod.func(message, command.namedArgs);
 				}
 			}
