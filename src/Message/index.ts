@@ -5,10 +5,15 @@ import {
 	replyWithSticker,
 	replyWithMedia,
 } from './PayloadCreation';
+import { loadTemplates } from './FromTemplate';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
 
-export const createMessageObject = (socket: Socket, command: Command) => {
+export const createMessageObject = (
+	socket: Socket,
+	command: Command,
+	templatePath: string
+) => {
 	const reply = (text: string) => {
 		socket.emit('reply_with_text', replyWithText(command, text));
 	};
@@ -19,6 +24,21 @@ export const createMessageObject = (socket: Socket, command: Command) => {
 
 	const replyMedia = (media: Media, caption?: string) => {
 		socket.emit('reply_with_media', replyWithMedia(command, media, caption));
+	};
+
+	const templates = loadTemplates(templatePath);
+	const replyWithTemplate = (
+		templateName: string,
+		templateData: Record<string, any> = {}
+	) => {
+		templates
+			.getTextFromTemplate(templateName, templateData)
+			.then(textResponse => {
+				if (!textResponse) {
+					throw `Error while trying to reply from template ${templateName}, could not find it's template in ${templatePath}`;
+				}
+				socket.emit('reply_with_text', replyWithText(command, textResponse));
+			});
 	};
 
 	return {
@@ -32,6 +52,7 @@ export const createMessageObject = (socket: Socket, command: Command) => {
 			withText: reply,
 			withSticker: replySticker,
 			withMedia: replyMedia,
+			withTemplate: replyWithTemplate,
 		},
 	};
 };

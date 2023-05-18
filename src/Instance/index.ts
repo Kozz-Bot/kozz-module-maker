@@ -6,6 +6,7 @@ type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
 	address: string;
 	methods: Record<string, Method<Methods>>;
+	templatePath?: string;
 };
 
 export type UseFn = (args: Command) => Command;
@@ -17,10 +18,15 @@ export const createHandlerInstance = <
 	address,
 	methods,
 	name,
+	templatePath,
 }: HandlerInitParams<Methods>) => {
 	const moduleUseFns: UseFn[] = [];
 
-	const { socket, introduce, registerMethods } = connect(address, moduleUseFns);
+	const { socket, introduce, registerMethods } = connect(
+		address,
+		moduleUseFns,
+		templatePath || ''
+	);
 
 	introduce(name, methods);
 	// @ts-ignore

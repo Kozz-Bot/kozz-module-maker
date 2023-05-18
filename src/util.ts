@@ -1,23 +1,12 @@
 import { Command } from 'kozz-types';
-import { OriginalFn, UseFn } from './Instance';
-
-export function mapObject2<K extends string, A, B>(
-	object: { [P in K]: A },
-	mapper: (value: A) => B
-): { [P in K]: B } {
-	const result: { [P in K]?: B } = {};
-
-	(Object.keys(object) as K[]).forEach((key: K) => {
-		// assert -------> ^^^^^^ (you already did this)
-		result[key] = mapper(object[key]);
-	});
-
-	return result as { [P in K]: B };
-	// assert --> ^^^^^^^^^^^^^^^^^^
-}
+import { UseFn } from './Instance';
 
 export const runUse = (useArr: UseFn[], args: Command) => {
 	return useArr.reduce((res, fn) => {
 		return fn(res);
 	}, args);
 };
+
+export function normalizeString(string: string) {
+	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}

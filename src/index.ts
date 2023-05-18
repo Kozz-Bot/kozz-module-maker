@@ -59,21 +59,7 @@ createHandlerInstance({
 			},
 		}),
 	},
-})
-	.use(command => {
-		console.log('On Middleware');
-		return command;
-	})
-	.use(command => {
-		if (command.message.fromHostAccount) {
-			console.log('Its a me!');
-		}
-
-		return {
-			...command,
-			immediateArg: 'testando',
-		};
-	});
+});
 
 createHandlerInstance({
 	name: 'reveal',
@@ -106,6 +92,23 @@ createHandlerInstance({
 					}
 					return requester.reply.withMedia(requester.quotedMessage.media);
 				}
+			},
+		}),
+	},
+});
+
+createHandlerInstance({
+	name: 'debug',
+	address: `${process.env.GATEWAY_URL}`,
+	templatePath: 'test.kozz.md',
+	methods: {
+		...createMethod({
+			name: 'default',
+			args: {},
+			func: requester => {
+				requester.reply.withTemplate('SearchResults', {
+					totalResults: 'resultados totais',
+				});
 			},
 		}),
 	},

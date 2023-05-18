@@ -19,6 +19,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "arcsecond": "^5.0.0",
     "dotenv": "^16.0.3",
     "link-module-alias": "^1.2.0",
     "socket.io-client": "^4.6.1"

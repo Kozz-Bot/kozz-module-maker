@@ -7,7 +7,11 @@ import { createMessageObject } from '../Message';
 import { UseFn } from '../Instance';
 import { runUse } from 'src/util';
 
-export const connect = (address: string, moduleUseFns: UseFn[]) => {
+export const connect = (
+	address: string,
+	moduleUseFns: UseFn[],
+	templatePath: string
+) => {
 	const socket = io(address);
 
 	const introduceFn = <T extends Record<string, any>>(
@@ -28,7 +32,8 @@ export const connect = (address: string, moduleUseFns: UseFn[]) => {
 				if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
 					const message = createMessageObject(
 						socket,
-						runUse(moduleUseFns, command)
+						runUse(moduleUseFns, command),
+						templatePath
 					);
 					actualMethod.func(message, command.namedArgs);
 				}

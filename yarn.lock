@@ -145,6 +145,11 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+arcsecond@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/arcsecond/-/arcsecond-5.0.0.tgz#580412516c0218981be9c103674c552b6cee24b0"
+  integrity sha512-J/fHdyadnsIencRsM6oUSsraCKG+Ni9Udcgr/eusxjTzX3SEQtCUQSpP0YtImFPfIK6DdT1nqwN0ng4FqNmwgA==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
