@@ -47,14 +47,11 @@ createHandlerInstance({
 			name: 'default',
 			args: {},
 			func: requester => {
-				console.log(requester.rawCommand.immediateArg);
 				const now = new Date().getTime();
 				const requestTime = requester.rawCommand.message.timestamp;
 
-				requester.reply.withText('pong');
-
 				requester.reply.withText(
-					`Tempo de resposta: ${(now - requestTime) / 1000} segundos`
+					`PONG! Tempo de resposta: ${(now - requestTime) / 1000} segundos`
 				);
 			},
 		}),
