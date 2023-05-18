@@ -5,7 +5,7 @@ import { Method } from '../Schema';
 import { isArgsObjectValid } from '../Validator';
 import { createMessageObject } from '../Message';
 import { UseFn } from '../Instance';
-import { runUse } from 'src/util';
+import { runUse } from '../util';
 
 export const connect = (
 	address: string,
