@@ -1,6 +1,9 @@
 import { HandlerIntroduction } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
-import { Method, MethodMap, TypeString } from '../../Schema';
+import { Method, TypeString } from '../../Schema';
+import crypto from 'crypto';
+import fs from 'fs/promises';
+import { signPayload } from 'src/util';
 
 export const introduce = <
 	T extends Record<string, Method<Record<string, TypeString>>>
@@ -16,5 +19,5 @@ export const introduce = <
 		timestamp: new Date().getTime(),
 	};
 
-	socket.emit('introduction', payload);
+	socket.emit('introduction', signPayload(payload));
 };
