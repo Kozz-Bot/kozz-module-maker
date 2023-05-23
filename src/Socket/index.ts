@@ -7,19 +7,16 @@ import { createMessageObject } from '../Message';
 import { UseFn } from '../Instance';
 import { runUse } from '../util';
 
-export const connect = (
+export const connect = <T extends Record<string, any>>(
 	address: string,
 	moduleUseFns: UseFn[],
-	templatePath: string
+	templatePath: string,
+	handlerName: string,
+	methods: T
 ) => {
 	const socket = io(address);
 
-	const introduceFn = <T extends Record<string, any>>(
-		handlerName: string,
-		methods: T
-	) => {
-		introduce(socket, handlerName, methods);
-	};
+	introduce(socket, handlerName, methods);
 
 	const registerMethods = <
 		T extends Record<string, Method<Record<string, any>>>
@@ -42,7 +39,6 @@ export const connect = (
 
 	return {
 		socket,
-		introduce: introduceFn,
 		registerMethods,
 	};
 };

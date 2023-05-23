@@ -22,13 +22,13 @@ export const createHandlerInstance = <
 }: HandlerInitParams<Methods>) => {
 	const moduleUseFns: UseFn[] = [];
 
-	const { socket, introduce, registerMethods } = connect(
+	const { socket, registerMethods } = connect(
 		address,
 		moduleUseFns,
-		templatePath || ''
+		templatePath || '',
+		name,
+		methods
 	);
-
-	introduce(name, methods);
 	// @ts-ignore
 	registerMethods(methods);
 
