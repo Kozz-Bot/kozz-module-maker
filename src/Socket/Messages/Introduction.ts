@@ -1,4 +1,4 @@
-import { HandlerIntroduction } from 'kozz-types/dist';
+import { HandlerIntroduction, SignaturelessPayload } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
 import { Method, TypeString } from '../../Schema';
 import crypto from 'crypto';
@@ -12,7 +12,7 @@ export const introduce = <
 	handlerName: string,
 	methods: T
 ) => {
-	const payload: HandlerIntroduction = {
+	const payload: SignaturelessPayload<HandlerIntroduction> = {
 		methods: Object.keys(methods),
 		name: handlerName,
 		role: 'handler',
