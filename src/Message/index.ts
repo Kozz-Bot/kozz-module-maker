@@ -6,6 +6,12 @@ import {
 	replyWithMedia,
 } from './PayloadCreation';
 import { loadTemplates } from './FromTemplate';
+import {
+	MimeType,
+	createMediaFromB64,
+	createMediaFromBuffer,
+	loadMediaFromPath,
+} from './PayloadCreation/Media';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
 
@@ -22,8 +28,38 @@ export const createMessageObject = (
 		socket.emit('reply_with_sticker', replyWithSticker(command, media));
 	};
 
+	// Reply with media. Yes, adding properties to functions work LMAO, JS Bad 🥴
 	const replyMedia = (media: Media, caption?: string) => {
 		socket.emit('reply_with_media', replyWithMedia(command, media, caption));
+	};
+
+	replyMedia.fromPath = async (
+		path: string,
+		mimeType: MimeType,
+		caption?: string
+	) => {
+		const media = await loadMediaFromPath(path, mimeType);
+		replyMedia(media, caption);
+	};
+
+	replyMedia.fromBuffer = (
+		buffer: Buffer,
+		mimeType: MimeType,
+		caption?: string,
+		fileName?: string
+	) => {
+		const media = createMediaFromBuffer(buffer, mimeType, fileName);
+		replyMedia(media, caption);
+	};
+
+	replyMedia.fromB64 = (
+		b64: string,
+		mimeType: MimeType,
+		caption?: string,
+		fileName?: string
+	) => {
+		const media = createMediaFromB64(b64, mimeType, fileName);
+		replyMedia(media, caption);
 	};
 
 	const templates = loadTemplates(templatePath);
