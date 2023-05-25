@@ -33,7 +33,7 @@ export const createMessageObject = (
 		socket.emit('reply_with_media', replyWithMedia(command, media, caption));
 	};
 
-	const replyMediaFromPath = async (
+	replyMedia.fromPath = async (
 		path: string,
 		mimeType: MimeType,
 		caption?: string
@@ -42,7 +42,7 @@ export const createMessageObject = (
 		replyMedia(media, caption);
 	};
 
-	const replyMediaFromBuffer = (
+	replyMedia.fromBuffer = (
 		buffer: Buffer,
 		mimeType: MimeType,
 		caption?: string,
@@ -52,7 +52,7 @@ export const createMessageObject = (
 		replyMedia(media, caption);
 	};
 
-	const replyMediaFromB64 = (
+	replyMedia.fromB64 = (
 		b64: string,
 		mimeType: MimeType,
 		caption?: string,
@@ -87,12 +87,7 @@ export const createMessageObject = (
 		reply: {
 			withText: reply,
 			withSticker: replySticker,
-			withMedia: {
-				fromMediaObject: replyMedia,
-				fromBuffer: replyMediaFromBuffer,
-				fromB64: replyMediaFromB64,
-				fromPath: replyMediaFromPath,
-			},
+			withMedia: replyMedia,
 			withTemplate: replyWithTemplate,
 		},
 	};
