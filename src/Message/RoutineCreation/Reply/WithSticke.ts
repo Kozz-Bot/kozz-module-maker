@@ -3,6 +3,6 @@ import { Socket } from 'socket.io-client';
 import { replyWithSticker } from '../../../Message/PayloadCreation';
 
 export const withSticker =
-	(media: Media) => (socket: Socket, command: Command) => {
+	(socket: Socket, command: Command) => (media: Media) => {
 		socket.emit('reply_with_sticker', replyWithSticker(command, media));
 	};

@@ -15,7 +15,7 @@ export const createReply = (
 		socket.emit('reply_with_text', replyWithText(command, text));
 	};
 
-	reply.withSticker = withSticker;
+	reply.withSticker = withSticker(socket, command);
 	reply.withTemplate = withTemplate(socket, command, templatePath);
 	reply.withMedia = withMedia(socket, command);
 
