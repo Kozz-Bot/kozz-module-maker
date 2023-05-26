@@ -14,13 +14,13 @@ export const loadMediaFromPath = async (
 	mimeType: MimeType
 ): Promise<Media> => {
 	const b64 = await fs.readFile(filePath, 'base64');
-	const fileName = filePath.split('/').at(-1) || null;
+	const fileName = null;
 
 	return {
 		data: b64,
 		fileName,
 		mimeType,
-		sizeInBytes: Buffer.from(b64, 'base64').length,
+		sizeInBytes: null,
 	};
 };
 

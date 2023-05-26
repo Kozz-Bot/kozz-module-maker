@@ -9,7 +9,8 @@
 		"start": "tsc && link-module-alias && node dist/index.js",
 		"test": "jest",
 		"docs": "typedoc ./src/index.ts",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"refresh-lib": "./.husky./post-commit"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.2.5",
