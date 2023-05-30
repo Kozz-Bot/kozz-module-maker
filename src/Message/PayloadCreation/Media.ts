@@ -20,7 +20,7 @@ export const loadMediaFromPath = async (
 		data: b64,
 		fileName,
 		mimeType,
-		sizeInBytes: null,
+		sizeInBytes: Buffer.from(b64, 'base64').length,
 	};
 };
 
