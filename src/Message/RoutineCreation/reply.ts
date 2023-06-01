@@ -9,7 +9,7 @@ import { withTemplate } from './Reply/WithTemplate';
 export const createReply = (
 	socket: Socket,
 	command: Command,
-	templatePath: string
+	templatePath?: string
 ) => {
 	const reply = (text: string) => {
 		socket.emit('reply_with_text', replyWithText(command, text));

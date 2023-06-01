@@ -1,6 +1,6 @@
 import { Command } from 'kozz-types/dist';
-import { Method, MethodCreator, TypeString } from '../Schema';
-import { connect } from '../Socket';
+import { Method, TypeString } from '../../Schema';
+import { connect } from '../../Socket';
 
 type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;

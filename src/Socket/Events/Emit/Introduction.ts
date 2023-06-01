@@ -1,8 +1,6 @@
 import { HandlerIntroduction, SignaturelessPayload } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
-import { Method, TypeString } from '../../Schema';
-import crypto from 'crypto';
-import fs from 'fs/promises';
+import { Method, TypeString } from '../../../Schema';
 import { signPayload } from 'src/util';
 
 export const introduce = <

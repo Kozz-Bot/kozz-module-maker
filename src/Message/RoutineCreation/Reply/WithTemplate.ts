@@ -4,8 +4,12 @@ import { loadTemplates } from '../../../Message/FromTemplate';
 import { replyWithText } from '../../../Message/PayloadCreation';
 
 export const withTemplate =
-	(socket: Socket, command: Command, templatePath: string) =>
+	(socket: Socket, command: Command, templatePath?: string) =>
 	(templateName: string, templateData: Record<string, any> = {}) => {
+		if (!templatePath) {
+			throw 'Trying to reply with template but no template path was provided';
+		}
+
 		loadTemplates(templatePath)
 			.getTextFromTemplate(templateName, templateData)
 			.then(textResponse => {

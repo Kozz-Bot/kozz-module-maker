@@ -7,7 +7,7 @@ export type MessageObj = ReturnType<typeof createMessageObject>;
 export const createMessageObject = (
 	socket: Socket,
 	command: Command,
-	templatePath: string
+	templatePath?: string
 ) => {
 	/**
 	 * Replies the requester of the command.
