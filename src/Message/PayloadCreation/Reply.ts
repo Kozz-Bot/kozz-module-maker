@@ -6,7 +6,7 @@ export const replyWithText = (
 ): SendMessagePayload => ({
 	body: string,
 	boundaryId: command.boundaryId,
-	chatId: command.message.from,
+	chatId: command.message.to,
 	contact: command.message.contact,
 	platform: command.message.platform,
 	timestamp: new Date().getTime(),
@@ -19,9 +19,7 @@ export const replyWithSticker = (
 ): SendMessagePayload => ({
 	body: '',
 	media: media,
-	chatId: command.message.fromHostAccount
-		? command.message.to
-		: command.message.from,
+	chatId: command.message.to,
 	platform: 'WA',
 	timestamp: new Date().getTime(),
 	quoteId: command.message.id,
@@ -36,9 +34,7 @@ export const replyWithMedia = (
 ): SendMessagePayload => ({
 	body: caption || '',
 	media: media,
-	chatId: command.message.fromHostAccount
-		? command.message.to
-		: command.message.from,
+	chatId: command.message.to,
 	platform: 'WA',
 	timestamp: new Date().getTime(),
 	quoteId: command.message.id,
