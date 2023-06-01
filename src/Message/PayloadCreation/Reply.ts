@@ -6,9 +6,7 @@ export const replyWithText = (
 ): SendMessagePayload => ({
 	body: string,
 	boundaryId: command.boundaryId,
-	chatId: command.message.fromHostAccount
-		? command.message.to
-		: command.message.from,
+	chatId: command.message.from,
 	contact: command.message.contact,
 	platform: command.message.platform,
 	timestamp: new Date().getTime(),
