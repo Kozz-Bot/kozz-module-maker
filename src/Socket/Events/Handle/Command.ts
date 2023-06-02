@@ -11,6 +11,7 @@ export const onCommand = <
 	socket: Socket,
 	methods: T,
 	moduleUseFns: UseFn[],
+	handlerName: string,
 	templatePath: string
 ) => {
 	socket.on('command', (command: Command) => {
@@ -20,6 +21,7 @@ export const onCommand = <
 				const message = createMessageObject(
 					socket,
 					runUse(moduleUseFns, command),
+					handlerName,
 					templatePath
 				);
 				actualMethod.func(message, command.namedArgs);

@@ -14,7 +14,8 @@ export const onProxiedMessage = (
 		const proxiedMessageObject = createProxiedMessageOject(
 			socket,
 			source,
-			payload
+			payload,
+			source.split('/')[0]
 		);
 		cb(proxiedMessageObject);
 	});

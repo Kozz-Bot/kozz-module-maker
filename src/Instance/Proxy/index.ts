@@ -1,9 +1,10 @@
 import { revokeProxy } from 'src/Socket/Events/Emit/RevokeProxy';
 import { connect } from '../../Socket';
-import { UseFn } from '../Handler';
 import { Source } from 'kozz-types';
 import { requestProxy } from 'src/Socket/Events/Emit/RequestProxy';
 import { ProxiedMessageObject } from 'src/Message/ProxiedMessage';
+import { onAskResource } from '../../Socket/Events/Handle/AskResource';
+import { createResourceMap, createUseFns } from '../Common';
 
 export type ProxyInitParams = {
 	address: string;
@@ -20,9 +21,10 @@ export const createProxyInstance = ({
 	destinationOverride,
 	onMessage,
 }: ProxyInitParams) => {
-	const moduleUseFns: UseFn[] = [];
+	const { moduleUseFns, use } = createUseFns(() => instance);
 
 	const { socket } = connect(address, moduleUseFns, '', name, {});
+	const revoke = () => revokeProxy(socket, source);
 
 	requestProxy(socket, {
 		address,
@@ -32,16 +34,16 @@ export const createProxyInstance = ({
 		onMessage,
 	});
 
-	const use = (useFn: UseFn) => {
-		moduleUseFns.push(useFn);
-		return instance;
-	};
-
-	const revoke = () => revokeProxy(socket, source);
+	const { removeResource, resourceMap, upsertResource } = createResourceMap();
+	onAskResource(socket, resourceMap);
 
 	const instance = {
 		use,
 		revoke,
+		resource: {
+			removeResource,
+			upsertResource,
+		},
 	};
 
 	return instance;

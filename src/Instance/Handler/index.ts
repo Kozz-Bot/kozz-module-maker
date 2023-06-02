@@ -1,6 +1,8 @@
 import { Command } from 'kozz-types/dist';
 import { Method, TypeString } from '../../Schema';
 import { connect } from '../../Socket';
+import { onAskResource } from '../../Socket/Events/Handle/AskResource';
+import { createResourceMap, createUseFns } from '../Common/';
 
 type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
@@ -20,7 +22,7 @@ export const createHandlerInstance = <
 	name,
 	templatePath,
 }: HandlerInitParams<Methods>) => {
-	const moduleUseFns: UseFn[] = [];
+	const { moduleUseFns, use } = createUseFns(() => instance);
 
 	const { socket, registerMethods } = connect(
 		address,
@@ -32,13 +34,15 @@ export const createHandlerInstance = <
 	// @ts-ignore
 	registerMethods(methods);
 
-	const use = (useFn: UseFn) => {
-		moduleUseFns.push(useFn);
-		return instance;
-	};
+	const { removeResource, resourceMap, upsertResource } = createResourceMap();
+	onAskResource(socket, resourceMap);
 
 	const instance = {
 		use,
+		resources: {
+			removeResource,
+			upsertResource,
+		},
 	};
 
 	return instance;

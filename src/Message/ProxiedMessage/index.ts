@@ -8,7 +8,8 @@ export type ProxiedMessageObject = ReturnType<typeof createProxiedMessageOject>;
 export const createProxiedMessageOject = (
 	socket: Socket,
 	source: Source,
-	message: MessageReceived
+	message: MessageReceived,
+	handlerName: string
 ) => {
 	//[TODO]: This is awful. I need to improve this lmao;
 	const pseudoCommand: Command = {
@@ -19,7 +20,7 @@ export const createProxiedMessageOject = (
 		namedArgs: {},
 	};
 
-	const messageObject = createMessageObject(socket, pseudoCommand);
+	const messageObject = createMessageObject(socket, pseudoCommand, handlerName);
 
 	const revoke = () => revokeProxy(socket, source);
 
