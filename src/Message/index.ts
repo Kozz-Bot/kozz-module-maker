@@ -2,6 +2,7 @@ import { Command, Media } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 import { createReply } from './RoutineCreation/reply';
 import { createAskResource } from './RoutineCreation/AskResource';
+import { sendMessageToContact } from './RoutineCreation/SendMessage';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
 
@@ -15,6 +16,7 @@ export const createMessageObject = (
 	 * Replies the requester of the command.
 	 */
 	const reply = createReply(socket, command, templatePath);
+	const sendMessage = sendMessageToContact(socket, command);
 	const ask = createAskResource(socket, {
 		requester: {
 			id: handlerId,
@@ -23,7 +25,8 @@ export const createMessageObject = (
 	});
 
 	return {
-		ask: ask,
+		ask,
+		sendMessage,
 		rawCommand: command,
 		media: command.message.media,
 		quotedMessage: command.message.quotedMessage,
