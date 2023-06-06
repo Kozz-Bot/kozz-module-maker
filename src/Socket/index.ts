@@ -9,11 +9,12 @@ export const connect = <T extends Record<string, any>>(
 	moduleUseFns: UseFn[],
 	templatePath: string,
 	handlerName: string,
-	methods: T
+	methods: T,
+	signature?: string
 ) => {
 	const socket = io(address);
 
-	introduce(socket, handlerName, methods);
+	introduce(socket, handlerName, methods, signature);
 
 	const registerMethods = <
 		T extends Record<string, Method<Record<string, any>>>

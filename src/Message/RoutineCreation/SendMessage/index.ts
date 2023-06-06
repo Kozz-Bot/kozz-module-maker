@@ -1,13 +1,16 @@
 import { Command, Media } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { sendMessage as createSendMessagePayload } from '../../../Message/PayloadCreation/sendMessage';
+import {
+	sendMessageByComand,
+	sendMessageById,
+} from '../../../Message/PayloadCreation/sendMessage';
 
-export const sendMessageToContact = (socket: Socket, command: Command) => {
+export const sendMessageToContactAfterCommand = (
+	socket: Socket,
+	command: Command
+) => {
 	const sendMessage = (contactId: string, text: string) => {
-		socket.emit(
-			'reply_with_text',
-			createSendMessagePayload(command, text, contactId)
-		);
+		socket.emit('send_message', sendMessageByComand(command, text, contactId));
 	};
 
 	sendMessage.withMedia = (
@@ -17,7 +20,30 @@ export const sendMessageToContact = (socket: Socket, command: Command) => {
 	) => {
 		socket.emit(
 			'send_message',
-			createSendMessagePayload(command, caption, contactId)
+			sendMessageByComand(command, caption, contactId, media)
+		);
+	};
+
+	return sendMessage;
+};
+
+export const sendMessageToContact = (socket: Socket, handlerName: string) => {
+	const sendMessage = (contactId: string, boundaryId: string, body: string) => {
+		socket.emit(
+			'send_message',
+			sendMessageById(handlerName, contactId, boundaryId, body)
+		);
+	};
+
+	sendMessage.withMedia = (
+		contactId: string,
+		boundaryId: string,
+		caption: string,
+		media: Media
+	) => {
+		socket.emit(
+			'send_message',
+			sendMessageById(handlerName, contactId, boundaryId, caption, media)
 		);
 	};
 

@@ -8,14 +8,14 @@ export const introduce = <
 >(
 	socket: Socket,
 	handlerName: string,
-	methods: T
+	methods: T,
+	signature?: string
 ) => {
 	const payload: SignaturelessPayload<HandlerIntroduction> = {
 		methods: Object.keys(methods),
 		name: handlerName,
 		role: 'handler',
-		timestamp: new Date().getTime(),
 	};
 
-	socket.emit('introduction', signPayload(payload));
+	socket.emit('introduction', signPayload(payload, signature));
 };

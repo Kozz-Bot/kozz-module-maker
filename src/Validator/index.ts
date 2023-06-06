@@ -5,8 +5,6 @@ import {
 	TypeString,
 } from '../Schema';
 
-//type ToPrimitiveTypeString
-
 type TypeDescriptor<T extends TypeString> = {
 	array: T extends ArrayTypeString ? true : false;
 	optional: T extends OptionalTypeString ? true : false;

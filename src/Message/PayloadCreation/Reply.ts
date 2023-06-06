@@ -24,7 +24,7 @@ export const replyWithSticker = (
 	timestamp: new Date().getTime(),
 	quoteId: command.message.id,
 	boundaryId: command.boundaryId,
-	contact: command.message.contact,
+  contact: command.message.contact,
 });
 
 export const replyWithMedia = (

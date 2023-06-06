@@ -1,55 +1,51 @@
-import { Command } from 'kozz-types/dist';
-import { Method, TypeString } from '../../Schema';
 import { connect } from '../../Socket';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { createResourceMap, createUseFns } from '../Common/';
+import { createAskResource } from '../../Message/RoutineCreation/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 
-type HandlerInitParams<Methods extends Record<string, TypeString>> = {
+type BasicControllerInitParams = {
 	name: string;
 	address: string;
-	methods: Record<string, Method<Methods>>;
 	templatePath?: string;
 	signature?: string;
 };
 
-export type UseFn = (args: Command) => Command;
-export type OriginalFn = (args: Command) => any;
-
-export const createHandlerInstance = <
-	Methods extends Record<string, TypeString>
->({
+export const createBasicController = ({
 	address,
-	methods,
 	name,
 	templatePath,
 	signature,
-}: HandlerInitParams<Methods>) => {
+}: BasicControllerInitParams) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
-	const { socket, registerMethods } = connect(
+	const { socket } = connect(
 		address,
 		moduleUseFns,
 		templatePath || '',
 		name,
-		methods,
+		{},
 		signature
 	);
 	// @ts-ignore
-	registerMethods(methods);
-
 	const { removeResource, resourceMap, upsertResource } = createResourceMap();
 	onAskResource(socket, resourceMap);
+
+	const ask = createAskResource(socket, {
+		requester: {
+			id: name,
+			type: 'Handler',
+		},
+	});
 
 	const sendMessage = sendMessageToContact(socket, name);
 
 	const instance = {
-		use,
 		sendMessage,
-		resources: {
-			removeResource,
-			upsertResource,
-		},
+		use,
+		removeResource,
+		upsertResource,
+		ask,
 	};
 
 	return instance;

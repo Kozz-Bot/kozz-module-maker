@@ -11,7 +11,9 @@ export const ask = async (
 	socket: Socket,
 	requestData: RequestData
 ): Promise<ProvideResourcePayload> => {
-	const requestId: `${string}/${number}` = `${requestData.responder.id}/${requestData.timestamp}`;
+	const requestId: `${string}/${number}` = `${requestData.responder.id}/${
+		requestData.timestamp * 100 + Math.random() * 100
+	}`;
 
 	const requestPayload: AskResourcePayload = {
 		...requestData,
@@ -24,13 +26,9 @@ export const ask = async (
 	socket.emit('ask_resource', requestPayload);
 
 	return new Promise(resolve => {
-		console.log(`awaiting promise on event "reply_resource/${requestId}"`);
-
 		socket.once(
 			`reply_resource/${requestId}`,
 			(payload: ProvideResourcePayload) => {
-				console.log('got response');
-
 				resolve(payload);
 			}
 		);
