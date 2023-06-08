@@ -10,6 +10,7 @@ export const connect = <T extends Record<string, any>>(
 	templatePath: string,
 	handlerName: string,
 	methods: T,
+	boundariesToHandle: string[],
 	signature?: string
 ) => {
 	const socket = io(address);
@@ -20,7 +21,15 @@ export const connect = <T extends Record<string, any>>(
 		T extends Record<string, Method<Record<string, any>>>
 	>(
 		methods: T
-	) => onCommand(socket, methods, moduleUseFns, handlerName, templatePath);
+	) =>
+		onCommand(
+			socket,
+			methods,
+			moduleUseFns,
+			handlerName,
+			templatePath,
+			boundariesToHandle
+		);
 
 	return {
 		socket,

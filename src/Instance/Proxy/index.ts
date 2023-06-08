@@ -26,7 +26,15 @@ export const createProxyInstance = ({
 }: ProxyInitParams) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
-	const { socket } = connect(address, moduleUseFns, '', name, {}, signature);
+	const { socket } = connect(
+		address,
+		moduleUseFns,
+		'',
+		name,
+		{},
+		[],
+		signature
+	);
 	const revoke = () => revokeProxy(socket, source);
 
 	requestProxy(socket, {

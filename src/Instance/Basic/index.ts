@@ -25,6 +25,7 @@ export const createBasicController = ({
 		templatePath || '',
 		name,
 		{},
+		[],
 		signature
 	);
 	// @ts-ignore

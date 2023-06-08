@@ -11,6 +11,7 @@ type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	methods: Record<string, Method<Methods>>;
 	templatePath?: string;
 	signature?: string;
+	boundariesToHandle: string[];
 };
 
 export type UseFn = (args: Command) => Command;
@@ -24,6 +25,7 @@ export const createHandlerInstance = <
 	name,
 	templatePath,
 	signature,
+	boundariesToHandle,
 }: HandlerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
@@ -33,6 +35,7 @@ export const createHandlerInstance = <
 		templatePath || '',
 		name,
 		methods,
+		boundariesToHandle,
 		signature
 	);
 	// @ts-ignore
