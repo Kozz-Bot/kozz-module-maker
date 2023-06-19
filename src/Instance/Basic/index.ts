@@ -11,6 +11,11 @@ type BasicControllerInitParams = {
 	signature?: string;
 };
 
+/**
+ * Creates a basic Handler Controller
+ * @param param0
+ * @returns
+ */
 export const createBasicController = ({
 	address,
 	name,

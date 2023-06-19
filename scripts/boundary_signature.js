@@ -1,17 +1,17 @@
 const fs = require('fs');
 const crypto = require('crypto');
 
-const handlerName = process.argv[2];
-if (!handlerName) {
-	console.error('handler name not provided');
+const boundaryName = process.argv[2];
+if (!boundaryName) {
+	console.error('Boundary name not provided');
 	process.exit(1);
 }
 
 const payload = {
-	// If you are signing a command handler, insert the command names in the array;
-	methods: [],
-	name: handlerName,
-	role: 'handler',
+	OS: 'windows',
+	platforrm: 'WA',
+	id: boundaryName,
+	role: 'boundary',
 };
 
 let privateKey;
