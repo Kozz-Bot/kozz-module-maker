@@ -44,6 +44,9 @@ export const createBasicController = ({
 		},
 	});
 
+	/**
+	 * Routine to send message to any given boundary
+	 */
 	const sendMessage = sendMessageToContact(socket, name);
 
 	const instance = {

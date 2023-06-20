@@ -12,6 +12,11 @@ const createProxyRequestPayload = (
 	};
 };
 
+/**
+ * Request proxy for a given
+ * @param socket
+ * @param proxyInitParams
+ */
 export const requestProxy = (
 	socket: Socket,
 	proxyInitParams: ProxyInitParams

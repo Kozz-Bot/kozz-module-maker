@@ -9,6 +9,11 @@ import {
 } from '../../../Message/PayloadCreation/Media';
 
 export const withMedia = (socket: Socket, command: Command) => {
+	/**
+	 * Replies with a media
+	 * @param {Media} media
+	 * @param {string} caption
+	 */
 	const replyMedia = (media: Media, caption?: string) => {
 		socket.emit('reply_with_media', replyWithMedia(command, media, caption));
 	};

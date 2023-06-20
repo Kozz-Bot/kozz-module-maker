@@ -32,6 +32,11 @@ export const signPayload = <T extends Record<string, any>>(
 	}
 };
 
+/**
+ * Useful for when you need to authenticate in the web. Still didn't managed to make it work
+ * @param payload
+ * @returns
+ */
 export const signInBrowser = <T extends Record<string, any>>(payload: T) => {
 	try {
 		// @ts-ignore
@@ -53,7 +58,11 @@ export const signInBrowser = <T extends Record<string, any>>(payload: T) => {
 		throw 'Please generate a keypair using the script "scripts/generate_key_pair.sh" and copy the publickey to the  "${projetc_root}/keys/privatekey.pem". Leve the key names as it is';
 	}
 };
-
+/**
+ * Sign any payload using fs to retrieve the key
+ * @param payload
+ * @returns
+ */
 export const signInNodeEnvironment = <T extends Record<string, any>>(
 	payload: T
 ) => {

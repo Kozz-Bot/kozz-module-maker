@@ -5,6 +5,12 @@ import {
 	createProxiedMessageOject,
 } from 'src/Message/ProxiedMessage';
 
+/**
+ * Handles the message proxied to the handler
+ * @param socket
+ * @param source
+ * @param cb
+ */
 export const onProxiedMessage = (
 	socket: Socket,
 	source: Source,

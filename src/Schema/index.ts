@@ -72,6 +72,11 @@ export type MethodCreator = <
 	) => void;
 }) => MethodMap<Name, T>;
 
+/**
+ * Creates a method that can be inserted to any Command handler.
+ * @param {{ [key: string]: TypeString }} commandArgs
+ * @returns {Method}
+ */
 // @ts-ignore
 export const createMethod: MethodCreator = ({ name, args, func }) => ({
 	[name]: {

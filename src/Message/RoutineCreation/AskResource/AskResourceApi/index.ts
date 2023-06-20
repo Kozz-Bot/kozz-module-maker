@@ -7,6 +7,13 @@ type RequestData = {
 		: AskResourcePayload[key];
 };
 
+/**
+ * Promisified interface for askin resource to other entities connected to the
+ * gateway
+ * @param socket
+ * @param requestData
+ * @returns {Promise<ProvideResourcePayload>}
+ */
 export const ask = async (
 	socket: Socket,
 	requestData: RequestData

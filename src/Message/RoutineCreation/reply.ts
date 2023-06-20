@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 import { replyWithText } from '../PayloadCreation';
 
 import { withMedia } from './Reply/WithMedia';
-import { withSticker } from './Reply/WithSticke';
+import { withSticker } from './Reply/WithSticker';
 import { withTemplate } from './Reply/WithTemplate';
 
 export const createReply = (

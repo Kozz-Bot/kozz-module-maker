@@ -2,6 +2,11 @@ import { Socket } from 'socket.io-client';
 import { ResourceMap } from '../../../Instance/Common/ResourceMap';
 import { AskResourcePayload, ProvideResourcePayload } from 'kozz-types/dist';
 
+/**
+ * Provide the resource asked
+ * @param socket
+ * @param resourceMap
+ */
 export const onAskResource = (socket: Socket, resourceMap: ResourceMap) => {
 	socket.on('ask_resource', (payload: AskResourcePayload) => {
 		const resourceGetter = resourceMap[payload.request.resource];

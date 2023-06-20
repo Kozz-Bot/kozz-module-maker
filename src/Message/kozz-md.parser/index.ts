@@ -8,19 +8,22 @@ const anything = A.regex(/^.*/);
 
 const exceptChars = (chars: string) => new RegExp(`^[^${chars}\n]+`);
 
-const betweenStrings = (
+const betweenStrings = <Ident extends string>(
 	stringLeft: string,
 	stringRight: string,
-	identifier: string
+	identifier: Ident
 ) =>
 	A.sequenceOf([
 		A.str(stringLeft),
 		A.regex(exceptChars(stringRight)),
 		A.str(stringRight),
-	]).map(x => ({
-		style: identifier,
-		text: x[1],
-	}));
+	]).map(
+		x =>
+			({
+				style: identifier,
+				text: x[1],
+			} as const)
+	);
 
 type TemplateData = {
 	[key: string]: unknown;
@@ -31,10 +34,13 @@ let injectableData: TemplateData = {};
 // _________________
 // Parser itself ...
 // -----------------
-const paragraph = A.sequenceOf([A.str('#'), A.whitespace, anything]).map(x => ({
-	style: 'paragraph',
-	text: x[2],
-}));
+const paragraph = A.sequenceOf([A.str('#'), A.whitespace, anything]).map(
+	x =>
+		({
+			style: 'paragraph',
+			text: x[2],
+		} as const)
+);
 
 const italic = betweenStrings('_', '_', 'italic');
 const stroke = betweenStrings('~', '~', 'stroke');
@@ -46,20 +52,29 @@ const template = betweenStrings('{{', '}}', 'template').map(x => ({
 	text: `${injectableData[x.text]}`,
 }));
 
-const normalText = A.regex(exceptChars('`~_*{>')).map(x => ({
-	style: 'normal',
-	text: x,
-}));
+const normalText = A.regex(exceptChars('`~_*{>')).map(
+	x =>
+		({
+			style: 'normal',
+			text: x,
+		} as const)
+);
 
-const listItem = A.sequenceOf([A.str('-'), A.whitespace, anything]).map(x => ({
-	style: 'listItem',
-	text: x[2],
-}));
+const listItem = A.sequenceOf([A.str('-'), A.whitespace, anything]).map(
+	x =>
+		({
+			style: 'listItem',
+			text: x[2],
+		} as const)
+);
 
-const lineBreak = A.str('<br>').map(() => ({
-	style: 'lineBreak',
-	text: '',
-}));
+const lineBreak = A.str('<br>').map(
+	() =>
+		({
+			style: 'lineBreak',
+			text: '',
+		} as const)
+);
 
 const textLine = A.sequenceOf([
 	A.many(A.whitespace),

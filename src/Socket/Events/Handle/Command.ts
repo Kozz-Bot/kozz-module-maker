@@ -5,6 +5,16 @@ import { createMessageObject } from '../../../Message';
 import { isArgsObjectValid } from '../../../Validator';
 import { runUse } from '../../../util';
 
+/**
+ * Handles the command received. It will check if the boundary should have it's command handled,
+ * find the correct method, parse, typecheck the args, run the middlewares and try to run the method
+ * @param socket
+ * @param methods
+ * @param moduleUseFns
+ * @param handlerName
+ * @param templatePath
+ * @param boundariesToHandle
+ */
 export const onCommand = <
 	T extends Record<string, Method<Record<string, any>>>
 >(

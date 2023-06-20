@@ -1,3 +1,3 @@
 export { withTemplate } from './WithTemplate';
-export { withSticker } from './WithSticke';
+export { withSticker } from './WithSticker';
 export { withMedia } from './WithMedia';

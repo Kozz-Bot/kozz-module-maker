@@ -65,6 +65,12 @@ export const isArgValid = <Type extends TypeString>(
 	return typeof arg === typeDescriptor.type;
 };
 
+/**
+ * Check ifm the arguments of a provided command are valid
+ * @param args
+ * @param descriptionMap
+ * @returns
+ */
 export const isArgsObjectValid = <Type extends TypeString>(
 	args: Record<string, unknown> = {},
 	descriptionMap: Record<string, Type> = {}
