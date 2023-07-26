@@ -5,7 +5,7 @@ import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { createResourceMap, createUseFns } from '../Common/';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 
-type HandlerInitParams<Methods extends Record<string, TypeString>> = {
+export type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
 	address: string;
 	methods: Record<string, Method<Methods>>;

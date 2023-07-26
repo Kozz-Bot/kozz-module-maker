@@ -35,7 +35,7 @@ export const onCommand = <
 		}
 
 		if (Object.keys(methods).includes(command.method)) {
-			const actualMethod = methods[command.method];
+			const actualMethod = methods[command.method] || methods["fallback"];
 			if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
 				const message = createMessageObject(
 					socket,
