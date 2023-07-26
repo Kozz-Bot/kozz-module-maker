@@ -34,17 +34,17 @@ export const onCommand = <
 			return;
 		}
 
-		if (Object.keys(methods).includes(command.method)) {
-			const actualMethod = methods[command.method] || methods["fallback"];
-			if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
-				const message = createMessageObject(
-					socket,
-					runUse(moduleUseFns, command),
-					handlerName,
-					templatePath
-				);
-				actualMethod.func(message, command.namedArgs);
-			}
+		const actualMethod = methods[command.method] || methods['fallback'];
+		if (!actualMethod) return;
+
+		if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
+			const message = createMessageObject(
+				socket,
+				runUse(moduleUseFns, command),
+				handlerName,
+				templatePath
+			);
+			actualMethod.func(message, command.namedArgs);
 		}
 	});
 };
