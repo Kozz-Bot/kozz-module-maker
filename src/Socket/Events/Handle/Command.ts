@@ -3,7 +3,7 @@ import { Command } from 'kozz-types';
 import { Method, UseFn } from '../../..';
 import { createMessageObject } from '../../../Message';
 import { isArgsObjectValid } from '../../../Validator';
-import { runUse } from '../../../util';
+import { normalizeString, runUse } from '../../../util';
 
 /**
  * Handles the command received. It will check if the boundary should have it's command handled,
@@ -34,7 +34,9 @@ export const onCommand = <
 			return;
 		}
 
-		const actualMethod = methods[command.method] || methods['fallback'];
+		const actualMethod =
+			methods[normalizeString(normalizeString(command.method))] ||
+			methods['fallback'];
 		if (!actualMethod) return;
 
 		if (isArgsObjectValid(command.namedArgs, actualMethod.args)) {
