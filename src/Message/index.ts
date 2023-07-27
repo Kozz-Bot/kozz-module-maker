@@ -3,6 +3,7 @@ import { Socket } from 'socket.io-client';
 import { createReply } from './RoutineCreation/reply';
 import { createAskResource } from './RoutineCreation/AskResource';
 import { sendMessageToContactAfterCommand } from './RoutineCreation/SendMessage';
+import { createReact } from './PayloadCreation/React';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
 
@@ -23,10 +24,12 @@ export const createMessageObject = (
 			type: 'Handler',
 		},
 	});
+	const react = createReact(socket, command);
 
 	return {
 		ask,
 		sendMessage,
+		react,
 		rawCommand: command,
 		media: command.message.media,
 		quotedMessage: command.message.quotedMessage,
