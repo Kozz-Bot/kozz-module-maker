@@ -4,6 +4,7 @@ import { createReply } from './RoutineCreation/reply';
 import { createAskResource } from './RoutineCreation/AskResource';
 import { sendMessageToContactAfterCommand } from './RoutineCreation/SendMessage';
 import { createReact } from './PayloadCreation/React';
+export * from './FromTemplate';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
 
