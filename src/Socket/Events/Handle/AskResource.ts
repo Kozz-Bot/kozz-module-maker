@@ -10,7 +10,7 @@ import { AskResourcePayload, ProvideResourcePayload } from 'kozz-types/dist';
 export const onAskResource = (socket: Socket, resourceMap: ResourceMap) => {
 	socket.on('ask_resource', (payload: AskResourcePayload) => {
 		const resourceGetter = resourceMap[payload.request.resource];
-		if (!resourceGetter) socket.emit('reply_resource', undefined);
+		if (!resourceGetter) return socket.emit('reply_resource', undefined);
 
 		promisify(resourceGetter(payload.request.data)).then(resource => {
 			const responsePayload: ProvideResourcePayload = {
