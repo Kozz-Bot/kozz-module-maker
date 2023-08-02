@@ -63,5 +63,23 @@ export const createAskResource = (
 		});
 	};
 
+	ask.gateway = (
+		resourceName: string,
+		requestArgs: AskResourceArgs['resource']['data'] = {}
+	) => {
+		return askResourceFn(socket, {
+			request: {
+				resource: resourceName,
+				data: requestArgs,
+			},
+			requester: args.requester,
+			timestamp: new Date().getTime(),
+			responder: {
+				id: '',
+				type: 'Gateway',
+			},
+		});
+	};
+
 	return ask;
 };
