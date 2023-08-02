@@ -28,12 +28,12 @@ export const createAskResource = (
 	ask.boundary = (
 		boundaryId: string,
 		resourceName: string,
-		args: AskResourceArgs['resource']['data'] = {}
+		requestArgs: AskResourceArgs['resource']['data'] = {}
 	) => {
 		return askResourceFn(socket, {
 			request: {
 				resource: resourceName,
-				data: args,
+				data: requestArgs,
 			},
 			requester: args.requester,
 			timestamp: new Date().getTime(),
@@ -47,12 +47,12 @@ export const createAskResource = (
 	ask.handler = (
 		handlerId: string,
 		resourceName: string,
-		args: AskResourceArgs['resource']['data'] = {}
+		requestArgs: AskResourceArgs['resource']['data'] = {}
 	) => {
 		return askResourceFn(socket, {
 			request: {
 				resource: resourceName,
-				data: args,
+				data: requestArgs,
 			},
 			requester: args.requester,
 			timestamp: new Date().getTime(),
