@@ -15,7 +15,9 @@ export const connect = <T extends Record<string, any>>(
 ) => {
 	const socket = io(address);
 
-	introduce(socket, handlerName, methods, signature);
+	socket.on('connect', () => {
+		introduce(socket, handlerName, methods, signature);
+	});
 
 	const registerMethods = <
 		T extends Record<string, Method<Record<string, any>>>

@@ -3,6 +3,7 @@ import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { createResourceMap, createUseFns } from '../Common/';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
+import { listenBoundary } from 'src/Socket/Events/Emit/ForwardEvent';
 
 type BasicControllerInitParams = {
 	name: string;
@@ -49,11 +50,14 @@ export const createBasicController = ({
 	 */
 	const sendMessage = sendMessageToContact(socket, name);
 
+	const listenToBoundary = listenBoundary(socket, name);
+
 	const instance = {
 		sendMessage,
 		use,
 		removeResource,
 		upsertResource,
+		listenToBoundary,
 		ask,
 	};
 
