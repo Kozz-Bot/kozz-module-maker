@@ -41,7 +41,7 @@ export const createMediaFromB64 = (
 	fileName?: string
 ): Media => ({
 	data: b64,
-	fileName: fileName || null,
+	fileName: fileName || mimeType,
 	mimeType: mimeType,
 	sizeInBytes: Buffer.from(b64, 'base64').length,
 });
