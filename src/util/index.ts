@@ -1,6 +1,6 @@
 import { Command } from 'kozz-types';
 import { UseFn } from '../Instance/Handler';
-import fs from 'fs';
+import fs from 'fs/promises';
 import crypto from 'crypto';
 
 let privateKey: string | undefined;
@@ -63,11 +63,11 @@ export const signInBrowser = <T extends Record<string, any>>(payload: T) => {
  * @param payload
  * @returns
  */
-export const signInNodeEnvironment = <T extends Record<string, any>>(
+export const signInNodeEnvironment = async <T extends Record<string, any>>(
 	payload: T
 ) => {
 	try {
-		privateKey = fs.readFileSync('./keys/privatekey.pem', {
+		privateKey = await fs.readFile('./keys/privatekey.pem', {
 			encoding: 'utf-8',
 		});
 	} catch (e) {
