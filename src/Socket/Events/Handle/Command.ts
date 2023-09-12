@@ -46,7 +46,19 @@ export const onCommand = <
 				handlerName,
 				templatePath
 			);
+			socket.emit('react_message', {
+				messageId: command.message.id,
+				boundaryId: command.boundaryId,
+				emote: '✔',
+			});
+
 			actualMethod.func(message, command.namedArgs);
+		} else {
+			socket.emit('react_message', {
+				messageId: command.message.id,
+				boundaryId: command.boundaryId,
+				emote: '❌',
+			});
 		}
 	});
 };
