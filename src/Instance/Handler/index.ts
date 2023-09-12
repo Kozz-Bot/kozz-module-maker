@@ -9,9 +9,9 @@ export type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
 	address: string;
 	methods: Record<string, Method<Methods>>;
+	boundariesToHandle: string[];
 	templatePath?: string;
 	signature?: string;
-	boundariesToHandle: string[];
 };
 
 export type UseFn = (args: Command) => Command;
@@ -38,7 +38,7 @@ export const createHandlerInstance = <
 		boundariesToHandle,
 		signature
 	);
-	// @ts-ignore
+
 	registerMethods(methods);
 
 	const { removeResource, resourceMap, upsertResource } = createResourceMap();

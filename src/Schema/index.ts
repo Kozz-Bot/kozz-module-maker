@@ -52,16 +52,12 @@ type ToOptional<T extends OptionalTypeString> = T extends ArrayTypeString
 	? ToPrimary<T>
 	: never;
 
-type TypeFromString<T extends TypeString> = T extends never
-	? never
-	: T extends OptionalTypeString
+type TypeFromString<T extends TypeString> = T extends OptionalTypeString
 	? ToOptional<T>
 	: T extends ArrayTypeString
 	? ToArray<T>
 	: T extends PrimaryTypeString
 	? ToPrimary<T>
-	: T extends string
-	? never
 	: never;
 
 export type MethodCreator = <
@@ -77,12 +73,14 @@ export type MethodCreator = <
 ) => MethodMap<Name, T>;
 
 /**
- * Creates a method that can be inserted to any Command handler.
- * @param {{ [key: string]: TypeString }} commandArgs
- * @returns {Method}
+ * Creates a command that can be inserted in any command Handler
+ * @param name
+ * @param callback
+ * @param args
+ * @returns
  */
-// @ts-ignore
-export const createMethod: MethodCreator = (name, callback, args) => {
+//@ts-ignore
+export const createMethod: MethodCreator = (name, callback, args = {}) => {
 	return {
 		[name]: {
 			args,
@@ -93,10 +91,7 @@ export const createMethod: MethodCreator = (name, callback, args) => {
 
 export type Method<T extends { [key: string]: TypeString }> = {
 	readonly args: T;
-	readonly func: (
-		message: MessageObj,
-		args: { [key in keyof T]: TypeFromString<T[key]> }
-	) => void;
+	readonly func: (message: MessageObj, args: any) => any;
 };
 
 export type MethodMap<
