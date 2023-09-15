@@ -6,6 +6,7 @@ import {
 	loadMediaFromPath,
 	createMediaFromBuffer,
 	createMediaFromB64,
+	createMediaFromUrl,
 } from '../../../Message/PayloadCreation/Media';
 
 export const withMedia = (socket: Socket, command: Command) => {
@@ -44,6 +45,11 @@ export const withMedia = (socket: Socket, command: Command) => {
 		fileName?: string
 	) => {
 		const media = createMediaFromB64(b64, mimeType, fileName);
+		replyMedia(media, caption);
+	};
+
+	replyMedia.fromUrl = (url: string, mimeType: MimeType, caption?: string) => {
+		const media = createMediaFromUrl(url, mimeType);
 		replyMedia(media, caption);
 	};
 

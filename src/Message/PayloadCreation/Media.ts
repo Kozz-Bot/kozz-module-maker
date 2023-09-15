@@ -21,6 +21,7 @@ export const loadMediaFromPath = async (
 		fileName,
 		mimeType,
 		sizeInBytes: Buffer.from(b64, 'base64').length,
+		transportType: 'b64',
 	};
 };
 
@@ -33,6 +34,7 @@ export const createMediaFromBuffer = (
 	fileName: fileName || null,
 	mimeType: mimeType,
 	sizeInBytes: buffer.length,
+	transportType: 'b64',
 });
 
 export const createMediaFromB64 = (
@@ -44,4 +46,17 @@ export const createMediaFromB64 = (
 	fileName: fileName || mimeType,
 	mimeType: mimeType,
 	sizeInBytes: Buffer.from(b64, 'base64').length,
+	transportType: 'b64',
+});
+
+export const createMediaFromUrl = (
+	url: string,
+	mimeType: MimeType,
+	fileName?: string
+): Media => ({
+	data: url,
+	fileName: fileName || mimeType,
+	mimeType: mimeType,
+	sizeInBytes: null,
+	transportType: 'url',
 });
