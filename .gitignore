@@ -2,3 +2,6 @@ node_modules/*
 dist*/
 coverage
 keys/*
+
+# file for debug usage of the lib
+src/debugIndex.ts

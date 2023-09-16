@@ -5,7 +5,7 @@
 	"main": "./dist",
 	"license": "MIT",
 	"scripts": {
-		"dev": "tsc && link-module-alias && concurrently \"tsc --watch\" \"nodemon dist/index.js\"",
+		"dev": "tsc && link-module-alias && concurrently \"tsc --watch\" \"nodemon dist/debugIndex.js\"",
 		"start": "tsc && link-module-alias && node dist/index.js",
 		"test": "jest",
 		"docs": "typedoc ./src/index.ts",

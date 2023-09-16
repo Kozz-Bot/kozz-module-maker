@@ -72,13 +72,10 @@ export const isArgValid = <Type extends TypeString>(
  * @returns
  */
 export const isArgsObjectValid = <Type extends TypeString>(
-	args: Record<string, unknown> = {},
+	args: Record<string, unknown>,
 	descriptionMap: Record<string, Type> = {}
 ) => {
 	return Object.entries(descriptionMap).reduce((valid, [argName, argType]) => {
-		if (!args || !args[argName]) {
-			return false;
-		}
 		return valid && isArgValid(args[argName], describeType(argType));
 	}, true);
 };
