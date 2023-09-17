@@ -46,6 +46,7 @@ export const onCommand = <
 				handlerName,
 				templatePath
 			);
+
 			socket.emit('react_message', {
 				messageId: command.message.id,
 				boundaryId: command.boundaryId,

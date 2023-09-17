@@ -18,6 +18,8 @@ export const createProxiedMessageOject = (
 		message,
 		method: '',
 		namedArgs: {},
+		query: '',
+		taggedContacts: [],
 	};
 
 	const messageObject = createMessageObject(socket, pseudoCommand, handlerName);
