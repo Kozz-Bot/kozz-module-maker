@@ -5,7 +5,7 @@ type HandlerOrProxy = any;
 
 type HandleOrProxyGetter = () => HandlerOrProxy;
 
-export const createUseFns = (instanceGetter: HandleOrProxyGetter) => {
+export const onEvent = (instanceGetter: HandleOrProxyGetter) => {
 	const moduleUseFns: UseFn[] = [];
 
 	const use = (useFn: UseFn) => {

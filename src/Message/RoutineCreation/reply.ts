@@ -12,6 +12,7 @@ export const createReply = (
 	templatePath?: string
 ) => {
 	const reply = (text: string) => {
+		console.log('Replying');
 		socket.emit('reply_with_text', replyWithText(command, text));
 	};
 

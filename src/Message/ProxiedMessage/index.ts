@@ -19,6 +19,8 @@ export const createProxiedMessageOject = (
 		method: '',
 		namedArgs: {},
 		query: '',
+		// This shouldn't be necessary
+		boundaryName: message.boundaryId,
 		taggedContacts: [],
 	};
 

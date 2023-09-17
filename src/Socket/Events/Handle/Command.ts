@@ -28,7 +28,7 @@ export const onCommand = <
 	socket.on('command', (command: Command) => {
 		// If the handler doesnt want to handle commands for the provided boundary
 		if (
-			!boundariesToHandle.includes(command.boundaryId) &&
+			!boundariesToHandle.includes(command.boundaryName) &&
 			!boundariesToHandle.includes('*')
 		) {
 			return;
