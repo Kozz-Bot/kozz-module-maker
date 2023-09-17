@@ -1,5 +1,5 @@
 import { Command } from 'kozz-types';
-import { UseFn } from '../Instance/Handler';
+import { UseFn } from '../Instance/Common';
 import fs from 'fs/promises';
 import crypto from 'crypto';
 

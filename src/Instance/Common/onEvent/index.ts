@@ -1,4 +1,4 @@
-import { UseFn } from '../../Handler';
+import { UseFn } from '../../Common';
 
 // [TODO] Better type for this
 type HandlerOrProxy = any;

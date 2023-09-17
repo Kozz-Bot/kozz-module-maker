@@ -1,9 +1,11 @@
-import { UseFn } from '../../Handler';
+import { Command } from 'kozz-types';
 
 // [TODO] Better type for this
 type HandlerOrProxy = any;
-
 type HandleOrProxyGetter = () => HandlerOrProxy;
+
+export type UseFn = (args: Command) => Command;
+export type OriginalFn = (args: Command) => any;
 
 export const createUseFns = (instanceGetter: HandleOrProxyGetter) => {
 	const moduleUseFns: UseFn[] = [];

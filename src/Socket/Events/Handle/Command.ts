@@ -1,9 +1,10 @@
 import { Socket } from 'socket.io-client';
 import { Command } from 'kozz-types';
-import { Method, UseFn } from '../../..';
+import { Method } from '../../..';
 import { createMessageObject } from '../../../Message';
 import { isArgsObjectValid } from '../../../Validator';
 import { normalizeString, runUse } from '../../../util';
+import { UseFn } from 'src/Instance/Common';
 
 /**
  * Handles the command received. It will check if the boundary should have it's command handled,

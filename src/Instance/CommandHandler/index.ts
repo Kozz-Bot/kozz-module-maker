@@ -1,4 +1,3 @@
-import { Command } from 'kozz-types/dist';
 import { Method, TypeString } from '../../Schema';
 import { connect } from '../../Socket';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
@@ -13,9 +12,6 @@ export type HandlerInitParams<Methods extends Record<string, TypeString>> = {
 	templatePath?: string;
 	signature?: string;
 };
-
-export type UseFn = (args: Command) => Command;
-export type OriginalFn = (args: Command) => any;
 
 export const createHandlerInstance = <
 	Methods extends Record<string, TypeString>

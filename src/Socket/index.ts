@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { introduce } from './Events/Emit/Introduction';
 import { Method } from '../Schema';
-import { UseFn } from '../Instance/Handler';
+import { UseFn } from '../Instance/Common';
 import { onCommand } from './Events/Handle/Command';
 
 export const connect = <T extends Record<string, any>>(

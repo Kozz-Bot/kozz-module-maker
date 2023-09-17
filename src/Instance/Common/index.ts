@@ -1,2 +1,2 @@
 export { createResourceMap } from './ResourceMap';
-export { createUseFns } from './UseFns';
+export { UseFn, createUseFns } from './UseFns';
