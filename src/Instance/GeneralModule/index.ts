@@ -1,5 +1,5 @@
 import { Method, TypeString } from '../../Schema';
-import { createResourceMap, createUseFns } from '../Common';
+import { createResourceMap, createUseFns, onEvent } from '../Common';
 import { connect } from '../../Socket';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
 import { requestProxy } from '../../Socket/Events/Emit/RequestProxy';
@@ -27,7 +27,7 @@ export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	};
 };
 
-export const createController = <Methods extends Record<string, TypeString>>({
+export const createModule = <Methods extends Record<string, TypeString>>({
 	name,
 	address,
 	commands,
@@ -36,7 +36,7 @@ export const createController = <Methods extends Record<string, TypeString>>({
 	templatePath,
 }: ControllerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
-	const { socket } = connect(
+	const { socket, registerMethods } = connect(
 		address,
 		moduleUseFns,
 		templatePath || '',
@@ -45,6 +45,10 @@ export const createController = <Methods extends Record<string, TypeString>>({
 		commands?.boundariesToHandle || [],
 		signature
 	);
+
+	if (commands?.methods) {
+		registerMethods(commands?.methods);
+	}
 
 	if (proxy) {
 		requestProxy(socket, {
@@ -65,6 +69,8 @@ export const createController = <Methods extends Record<string, TypeString>>({
 		}
 	};
 
+	const { on } = onEvent(socket, name);
+
 	const ask = createAskResource(socket, {
 		requester: {
 			id: name,
@@ -74,6 +80,7 @@ export const createController = <Methods extends Record<string, TypeString>>({
 
 	const instance = {
 		use,
+		on,
 		sendMessage,
 		resources: {
 			removeResource,
@@ -84,4 +91,5 @@ export const createController = <Methods extends Record<string, TypeString>>({
 		},
 		ask,
 	};
+	return instance;
 };

@@ -15,6 +15,8 @@ export function normalizeString(string: string) {
 	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+export const randomId = () => crypto.randomUUID();
+
 export const signPayload = <T extends Record<string, any>>(
 	payload: T,
 	signature?: string

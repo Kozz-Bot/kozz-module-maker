@@ -1,7 +1,16 @@
-import { ProxyRequestPayload } from 'kozz-types';
+import { ProxyRequestPayload, Source } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { ProxyInitParams } from '../../../Instance/Proxy';
 import { onProxiedMessage } from '../Handle/ProxiedMessage';
+import { ProxiedMessageObject } from 'src/Message/ProxiedMessage';
+
+export type ProxyInitParams = {
+	address: string;
+	source: Source;
+	name: string;
+	destinationOverride?: string;
+	signature?: string;
+	onMessage: (message: ProxiedMessageObject) => any;
+};
 
 const createProxyRequestPayload = (
 	proxyInitParams: ProxyInitParams
