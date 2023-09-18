@@ -1,7 +1,7 @@
 {
-	"name": "kozz-handler-maker",
+	"name": "kozz-module-maker",
 	"version": "1.0.0",
-	"description": "Library to create new handlers for the Kozz-Bot protocol",
+	"description": "Library to create new module for the Kozz-Bot protocol",
 	"main": "./dist",
 	"license": "MIT",
 	"scripts": {
