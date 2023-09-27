@@ -4,3 +4,5 @@ scripts
 .vscode
 .husky
 dist
+
+src/debugIndex.ts

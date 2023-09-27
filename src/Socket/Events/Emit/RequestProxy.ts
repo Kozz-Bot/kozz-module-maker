@@ -10,6 +10,7 @@ export type ProxyInitParams = {
 	destinationOverride?: string;
 	signature?: string;
 	onMessage: (message: ProxiedMessageObject) => any;
+	keepProxyAlive?: boolean;
 };
 
 const createProxyRequestPayload = (
@@ -17,6 +18,7 @@ const createProxyRequestPayload = (
 ): ProxyRequestPayload => {
 	return {
 		source: proxyInitParams.source,
+		keepAlive: proxyInitParams.keepProxyAlive,
 		destination: proxyInitParams.destinationOverride || proxyInitParams.name,
 	};
 };

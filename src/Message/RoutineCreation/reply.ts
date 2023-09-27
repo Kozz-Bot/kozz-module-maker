@@ -1,4 +1,4 @@
-import { Command } from 'kozz-types';
+import { Command, MessageReceivedByGateway } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 import { replyWithText } from '../PayloadCreation';
 
@@ -8,16 +8,16 @@ import { withTemplate } from './Reply/WithTemplate';
 
 export const createReply = (
 	socket: Socket,
-	command: Command,
+	messagePayload: MessageReceivedByGateway,
 	templatePath?: string
 ) => {
 	const reply = (text: string) => {
-		socket.emit('reply_with_text', replyWithText(command, text));
+		socket.emit('reply_with_text', replyWithText(messagePayload, text));
 	};
 
-	reply.withSticker = withSticker(socket, command);
-	reply.withTemplate = withTemplate(socket, command, templatePath);
-	reply.withMedia = withMedia(socket, command);
+	reply.withSticker = withSticker(socket, messagePayload);
+	reply.withTemplate = withTemplate(socket, messagePayload, templatePath);
+	reply.withMedia = withMedia(socket, messagePayload);
 
 	return reply;
 };

@@ -16,20 +16,7 @@ export const createProxiedMessageOject = (
 	message: MessageReceivedByGateway,
 	handlerName: string
 ) => {
-	//[TODO]: This is awful. I need to improve this lmao;
-	const pseudoCommand: Command = {
-		boundaryId: message.boundaryId,
-		immediateArg: '',
-		message,
-		method: '',
-		namedArgs: {},
-		query: '',
-		// This shouldn't be necessary
-		boundaryName: message.boundaryName,
-		taggedContacts: [],
-	};
-
-	const messageObject = createMessageObject(socket, pseudoCommand, handlerName);
+	const messageObject = createMessageObject(socket, message, handlerName);
 
 	const revoke = () => revokeProxy(socket, source);
 

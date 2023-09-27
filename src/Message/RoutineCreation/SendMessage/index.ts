@@ -1,16 +1,17 @@
-import { Command, Media } from 'kozz-types';
+import { Command, Media, MessageReceivedByGateway } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import {
-	sendMessageByComand,
-	sendMessageById,
-} from '../../../Message/PayloadCreation/sendMessage';
+import { createSendMessagePayload } from '../../../Message/PayloadCreation/sendMessage';
 
-export const sendMessageToContactAfterCommand = (
+export const sendMessageToContactOnRequesterObject = (
 	socket: Socket,
-	command: Command
+	handlerName: string,
+	boundaryId: string
 ) => {
-	const sendMessage = (contactId: string, text: string) => {
-		socket.emit('send_message', sendMessageByComand(command, text, contactId));
+	const sendMessage = (contactId: string, body: string) => {
+		socket.emit(
+			'send_message',
+			createSendMessagePayload(handlerName, contactId, boundaryId, body)
+		);
 	};
 
 	sendMessage.withMedia = (
@@ -20,7 +21,13 @@ export const sendMessageToContactAfterCommand = (
 	) => {
 		socket.emit(
 			'send_message',
-			sendMessageByComand(command, caption, contactId, media)
+			createSendMessagePayload(
+				handlerName,
+				contactId,
+				boundaryId,
+				caption,
+				media
+			)
 		);
 	};
 
@@ -31,7 +38,7 @@ export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 	const sendMessage = (contactId: string, boundaryId: string, body: string) => {
 		socket.emit(
 			'send_message',
-			sendMessageById(handlerName, contactId, boundaryId, body)
+			createSendMessagePayload(handlerName, contactId, boundaryId, body)
 		);
 	};
 
@@ -43,7 +50,13 @@ export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 	) => {
 		socket.emit(
 			'send_message',
-			sendMessageById(handlerName, contactId, boundaryId, caption, media)
+			createSendMessagePayload(
+				handlerName,
+				contactId,
+				boundaryId,
+				caption,
+				media
+			)
 		);
 	};
 

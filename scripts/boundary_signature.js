@@ -9,8 +9,8 @@ if (!boundaryName) {
 
 const payload = {
 	OS: 'windows',
-	platforrm: 'WA',
-	id: boundaryName,
+	platform: 'WA',
+	name: boundaryName,
 	role: 'boundary',
 };
 
@@ -34,9 +34,15 @@ const signature = crypto.sign(
 );
 
 console.log('This is the payload you have to paste on postman');
-console.log({
-	...payload,
-	signature: signature.toString('base64'),
-});
+console.log(
+	JSON.stringify(
+		{
+			...payload,
+			signature: signature.toString('base64'),
+		},
+		undefined,
+		'  '
+	)
+);
 
 process.exit(0);

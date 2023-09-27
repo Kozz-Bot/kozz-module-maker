@@ -41,9 +41,11 @@ export const onCommand = <
 		if (!actualMethod) return;
 
 		if (isArgsObjectValid(command.namedArgs || {}, actualMethod.args)) {
+			const updatedCommand = runUse(moduleUseFns, command);
+
 			const message = createMessageObject(
 				socket,
-				runUse(moduleUseFns, command),
+				command.message,
 				handlerName,
 				templatePath
 			);
@@ -54,7 +56,7 @@ export const onCommand = <
 				emote: '✔',
 			});
 
-			actualMethod.func(message, command.namedArgs);
+			actualMethod.func(message, updatedCommand.namedArgs || {});
 		} else {
 			socket.emit('react_message', {
 				messageId: command.message.id,

@@ -75,7 +75,7 @@ export const createAskResource = (
 			requester: args.requester,
 			timestamp: new Date().getTime(),
 			responder: {
-				id: '',
+				id: 'Gateway',
 				type: 'Gateway',
 			},
 		});

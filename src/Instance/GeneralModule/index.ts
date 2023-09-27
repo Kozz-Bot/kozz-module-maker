@@ -24,6 +24,7 @@ export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 		source: Source;
 		destinationOverride?: string;
 		onMessage: (message: ProxiedMessageObject) => any;
+		keepAliveProxy?: boolean;
 	};
 };
 
@@ -36,6 +37,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	templatePath,
 }: ControllerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
+
 	const { socket, registerMethods } = connect(
 		address,
 		moduleUseFns,
@@ -91,5 +93,6 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 		},
 		ask,
 	};
+
 	return instance;
 };

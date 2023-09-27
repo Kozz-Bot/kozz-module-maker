@@ -1,58 +1,63 @@
-import { Command, Media, SendMessagePayload } from 'kozz-types';
+import {
+	Command,
+	Media,
+	MessageReceivedByGateway,
+	SendMessagePayload,
+} from 'kozz-types';
 
 export const replyWithText = (
-	command: Command,
+	messagePayload: MessageReceivedByGateway,
 	string: string
 ): SendMessagePayload => ({
 	body: string,
-	boundaryId: command.boundaryId,
-	chatId: command.message.to,
-	contact: command.message.contact,
-	platform: command.message.platform,
+	boundaryId: messagePayload.boundaryId,
+	chatId: messagePayload.to,
+	contact: messagePayload.contact,
+	platform: messagePayload.platform,
 	timestamp: new Date().getTime(),
-	quoteId: command.message.id,
+	quoteId: messagePayload.id,
 });
 
 export const replyWithSticker = (
-	command: Command,
+	messagePayload: MessageReceivedByGateway,
 	media: Media
 ): SendMessagePayload => ({
 	body: '',
 	media: media,
-	chatId: command.message.to,
+	chatId: messagePayload.to,
 	platform: 'WA',
 	timestamp: new Date().getTime(),
-	quoteId: command.message.id,
-	boundaryId: command.boundaryId,
-	contact: command.message.contact,
+	quoteId: messagePayload.id,
+	boundaryId: messagePayload.boundaryId,
+	contact: messagePayload.contact,
 });
 
 export const replyWithMedia = (
-	command: Command,
+	messagePayload: MessageReceivedByGateway,
 	media: Media,
 	caption?: string
 ): SendMessagePayload => ({
 	body: caption || '',
 	media: media,
-	chatId: command.message.to,
+	chatId: messagePayload.to,
 	platform: 'WA',
 	timestamp: new Date().getTime(),
-	quoteId: command.message.id,
-	boundaryId: command.boundaryId,
-	contact: command.message.contact,
+	quoteId: messagePayload.id,
+	boundaryId: messagePayload.boundaryId,
+	contact: messagePayload.contact,
 });
 
 export const replyWithMediaFromUrl = (
-	command: Command,
+	messagePayload: MessageReceivedByGateway,
 	media: Media,
 	caption?: string
 ): SendMessagePayload => ({
 	body: caption || '',
 	media: media,
-	chatId: command.message.to,
+	chatId: messagePayload.to,
 	platform: 'WA',
 	timestamp: new Date().getTime(),
-	quoteId: command.message.id,
-	boundaryId: command.boundaryId,
-	contact: command.message.contact,
+	quoteId: messagePayload.id,
+	boundaryId: messagePayload.boundaryId,
+	contact: messagePayload.contact,
 });

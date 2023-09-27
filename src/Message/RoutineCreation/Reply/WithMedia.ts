@@ -1,4 +1,4 @@
-import { Command, Media } from 'kozz-types/dist';
+import { Command, Media, MessageReceivedByGateway } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
 import { replyWithMedia } from '../../../Message/PayloadCreation';
 import {
@@ -9,14 +9,20 @@ import {
 	createMediaFromUrl,
 } from '../../../Message/PayloadCreation/Media';
 
-export const withMedia = (socket: Socket, command: Command) => {
+export const withMedia = (
+	socket: Socket,
+	messagePayload: MessageReceivedByGateway
+) => {
 	/**
 	 * Replies with a media
 	 * @param {Media} media
 	 * @param {string} caption
 	 */
 	const replyMedia = (media: Media, caption?: string) => {
-		socket.emit('reply_with_media', replyWithMedia(command, media, caption));
+		socket.emit(
+			'reply_with_media',
+			replyWithMedia(messagePayload, media, caption)
+		);
 	};
 
 	replyMedia.fromPath = async (

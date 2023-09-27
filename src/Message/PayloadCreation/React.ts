@@ -1,11 +1,14 @@
-import { Command } from 'kozz-types';
+import { Command, MessageReceivedByGateway } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 
-export const createReact = (socket: Socket, command: Command) => {
+export const createReact = (
+	socket: Socket,
+	messagePayload: MessageReceivedByGateway
+) => {
 	const react = (emote: string) =>
 		socket.emit('react_message', {
-			messageId: command.message.id,
-			boundaryId: command.boundaryId,
+			messageId: messagePayload.id,
+			boundaryId: messagePayload.boundaryId,
 			emote,
 		});
 
