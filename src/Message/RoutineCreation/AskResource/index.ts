@@ -1,4 +1,4 @@
-import { AskResourcePayload } from 'kozz-types/dist';
+import { AskResourcePayload } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 import { ask as askResourceFn } from './AskResourceApi';
 

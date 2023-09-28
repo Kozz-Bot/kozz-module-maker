@@ -1,4 +1,4 @@
-import { AskResourcePayload } from 'kozz-types/dist';
+import { AskResourcePayload } from 'kozz-types';
 
 type ResourceName = string;
 type ResourceGetter = (args: AskResourcePayload['request']['data']) => any;

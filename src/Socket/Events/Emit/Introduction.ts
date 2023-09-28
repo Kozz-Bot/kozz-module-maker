@@ -1,7 +1,7 @@
 import { HandlerIntroduction, SignaturelessPayload } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
 import { Method, TypeString } from '../../../Schema';
-import { signPayload } from 'src/util';
+import { signPayload } from '../../../util';
 
 /**
  * Emits the introduction payload to the gateway
