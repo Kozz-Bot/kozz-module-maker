@@ -1,7 +1,7 @@
 import { Command, MessageReceivedByGateway } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
-import { loadTemplates } from '../../../Message/FromTemplate';
-import { replyWithText } from '../../../Message/PayloadCreation';
+import { loadTemplates } from '../../FromTemplate';
+import { replyWithText } from '../../PayloadCreation';
 
 export const withTemplate =
 	(

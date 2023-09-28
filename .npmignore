@@ -2,7 +2,7 @@ node_modules
 keys
 .vscode
 .husky
-dist
+src
 .npmrc
 
 src/debugIndex.ts

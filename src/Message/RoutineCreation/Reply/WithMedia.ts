@@ -1,13 +1,13 @@
 import { Command, Media, MessageReceivedByGateway } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
-import { replyWithMedia } from '../../../Message/PayloadCreation';
+import { replyWithMedia } from '../../PayloadCreation';
 import {
 	MimeType,
 	loadMediaFromPath,
 	createMediaFromBuffer,
 	createMediaFromB64,
 	createMediaFromUrl,
-} from '../../../Message/PayloadCreation/Media';
+} from '../../PayloadCreation/Media';
 
 export const withMedia = (
 	socket: Socket,

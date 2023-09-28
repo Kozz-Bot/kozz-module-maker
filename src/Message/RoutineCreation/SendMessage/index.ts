@@ -1,6 +1,6 @@
 import { Command, Media, MessageReceivedByGateway } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { createSendMessagePayload } from '../../../Message/PayloadCreation/sendMessage';
+import { createSendMessagePayload } from '../../PayloadCreation/sendMessage';
 
 export const sendMessageToContactOnRequesterObject = (
 	socket: Socket,
