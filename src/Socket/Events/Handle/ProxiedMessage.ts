@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 import {
 	ProxiedMessageObject,
 	createProxiedMessageOject,
-} from 'src/Message/ProxiedMessage';
+} from '../../../Message/ProxiedMessage';
 
 /**
  * Handles the message proxied to the handler
