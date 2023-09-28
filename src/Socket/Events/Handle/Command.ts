@@ -47,7 +47,8 @@ export const onCommand = <
 				socket,
 				command.message,
 				handlerName,
-				templatePath
+				templatePath,
+				command
 			);
 
 			socket.emit('react_message', {
