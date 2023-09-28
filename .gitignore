@@ -3,6 +3,7 @@ dist*/
 coverage
 keys/*
 .env
+.npmrc
 
 # file for debug usage of the lib
 src/debugIndex.ts
