@@ -92,7 +92,6 @@ export const onEvent = (socket: Socket, handlerId: string) => {
 	};
 
 	socket.on('forwarded_event', (event: ForwardedEventPayload) => {
-		console.log('Received Event aaa');
 		tryRunEventListeners(event.eventName, event.payload);
 	});
 
