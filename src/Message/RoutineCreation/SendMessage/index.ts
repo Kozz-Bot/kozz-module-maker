@@ -8,9 +8,11 @@ export const sendMessageToContactOnRequesterObject = (
 	boundaryId: string
 ) => {
 	const sendMessage = (contactId: string, body: string) => {
+		const payload = createSendMessagePayload(handlerName, contactId, boundaryId, body);
+
 		socket.emit(
 			'send_message',
-			createSendMessagePayload(handlerName, contactId, boundaryId, body)
+			payload,
 		);
 	};
 
@@ -19,15 +21,17 @@ export const sendMessageToContactOnRequesterObject = (
 		caption: string,
 		media: Media
 	) => {
+		const payload = createSendMessagePayload(
+			handlerName,
+			contactId,
+			boundaryId,
+			caption,
+			media
+		);
+
 		socket.emit(
 			'send_message',
-			createSendMessagePayload(
-				handlerName,
-				contactId,
-				boundaryId,
-				caption,
-				media
-			)
+			payload,
 		);
 	};
 
@@ -36,9 +40,11 @@ export const sendMessageToContactOnRequesterObject = (
 
 export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 	const sendMessage = (contactId: string, boundaryId: string, body: string) => {
+		const payload = createSendMessagePayload(handlerName, contactId, boundaryId, body);
+
 		socket.emit(
 			'send_message',
-			createSendMessagePayload(handlerName, contactId, boundaryId, body)
+			payload,
 		);
 	};
 
@@ -48,15 +54,17 @@ export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 		caption: string,
 		media: Media
 	) => {
+		const payload = createSendMessagePayload(
+			handlerName,
+			contactId,
+			boundaryId,
+			caption,
+			media
+		);
+
 		socket.emit(
 			'send_message',
-			createSendMessagePayload(
-				handlerName,
-				contactId,
-				boundaryId,
-				caption,
-				media
-			)
+			payload,
 		);
 	};
 

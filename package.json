@@ -10,7 +10,8 @@
 		"test": "jest",
 		"docs": "typedoc ./src/index.ts",
 		"prepare": "husky install",
-		"refresh-lib": "./.husky./post-commit"
+		"refresh-lib": "./.husky./post-commit",
+		"prepublish": "tsc"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.2.5",

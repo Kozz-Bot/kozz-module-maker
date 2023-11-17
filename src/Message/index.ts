@@ -22,7 +22,7 @@ export const createMessageObject = (
 	const sendMessage = sendMessageToContactOnRequesterObject(
 		socket,
 		handlerId,
-		messagePayload.from
+		messagePayload.boundaryId,
 	);
 
 	const ask = createAskResource(socket, {
