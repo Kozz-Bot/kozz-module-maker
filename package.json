@@ -1,6 +1,6 @@
 {
 	"name": "kozz-module-maker",
-	"version": "0.1.11",
+	"version": "0.1.12",
 	"description": "Library to create new module for the Kozz-Bot protocol",
 	"main": "./dist",
 	"license": "MIT",
