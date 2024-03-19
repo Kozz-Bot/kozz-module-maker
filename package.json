@@ -16,7 +16,7 @@
 	"devDependencies": {
 		"@types/jest": "^29.2.5",
 		"concurrently": "^7.5.0",
-		"kozz-types": "^0.1.5",
+		"kozz-types": "^0.1.7",
 		"nodemon": "^2.0.22",
 		"typedoc": "^0.23.21",
 		"typescript": "^5.0.4"

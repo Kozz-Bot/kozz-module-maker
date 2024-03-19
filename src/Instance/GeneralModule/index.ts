@@ -11,7 +11,10 @@ import { createAskResource } from '../../Message/RoutineCreation/AskResource';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
+
 	address: string;
+	customSocketPath?: string;
+
 	templatePath?: string;
 	signature?: string;
 
@@ -35,6 +38,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	proxy,
 	signature,
 	templatePath,
+	customSocketPath,
 }: ControllerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
@@ -45,7 +49,8 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 		name,
 		commands?.methods || {},
 		commands?.boundariesToHandle || [],
-		signature
+		signature,
+		customSocketPath
 	);
 
 	if (commands?.methods) {

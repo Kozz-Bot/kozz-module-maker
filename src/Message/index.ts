@@ -4,6 +4,7 @@ import { createReply } from './RoutineCreation/reply';
 import { createAskResource } from './RoutineCreation/AskResource';
 import { sendMessageToContactOnRequesterObject } from './RoutineCreation/SendMessage';
 import { createReact } from './PayloadCreation/React';
+import { addSelfDeleteToMessages } from './RoutineCreation/DeleteMessage';
 export * from './FromTemplate';
 
 export type MessageObj = ReturnType<typeof createMessageObject>;
@@ -22,23 +23,32 @@ export const createMessageObject = (
 	const sendMessage = sendMessageToContactOnRequesterObject(
 		socket,
 		handlerId,
-		messagePayload.boundaryId,
+		messagePayload.boundaryId
 	);
 
+	/**
+	 * Ask for resources to other entities connected to the same gateway.
+	 */
 	const ask = createAskResource(socket, {
 		requester: {
 			id: handlerId,
 			type: 'Handler',
 		},
 	});
+
 	const react = createReact(socket, messagePayload);
+
+	const messagesWithSelfDelete = addSelfDeleteToMessages(
+		socket,
+		messagePayload
+	);
 
 	return {
 		ask,
 		sendMessage,
 		react,
 		rawCommand: command,
-		message: messagePayload,
+		message: messagesWithSelfDelete,
 		reply,
 	};
 };

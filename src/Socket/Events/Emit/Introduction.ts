@@ -10,7 +10,7 @@ import { signPayload } from '../../../util';
  * @param methods
  * @param signature
  */
-export const introduce = <
+export const introduce = async <
 	T extends Record<string, Method<Record<string, TypeString>>>
 >(
 	socket: Socket,
@@ -24,5 +24,5 @@ export const introduce = <
 		role: 'handler',
 	};
 
-	socket.emit('introduction', signPayload(payload, signature));
+	socket.emit('introduction', await signPayload(payload, signature));
 };

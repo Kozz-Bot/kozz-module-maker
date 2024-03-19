@@ -1,4 +1,4 @@
-import { Command, MessageReceivedByGateway } from 'kozz-types/dist';
+import { MessageReceivedByGateway } from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
 import { loadTemplates } from '../../FromTemplate';
 import { replyWithText } from '../../PayloadCreation';

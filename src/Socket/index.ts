@@ -1,4 +1,4 @@
-import { io } from 'socket.io-client';
+import { ManagerOptions, SocketOptions, io } from 'socket.io-client';
 import { introduce } from './Events/Emit/Introduction';
 import { Method } from '../Schema';
 import { UseFn } from '../Instance/Common';
@@ -11,11 +11,18 @@ export const connect = <T extends Record<string, any>>(
 	handlerName: string,
 	methods: T,
 	boundariesToHandle: string[],
-	signature?: string
+	signature?: string,
+	socketPath: string = '/socket.io/'
 ) => {
-	const socket = io(address);
+	const connectionObj: Partial<SocketOptions & ManagerOptions> = {
+		path: socketPath,
+	};
+	const socket = io(address, connectionObj);
 
 	socket.on('connect', () => {
+		console.log(
+			`Introducing ${handlerName} to gateway on address ${address} with socketPath ${socketPath}`
+		);
 		introduce(socket, handlerName, methods, signature);
 	});
 

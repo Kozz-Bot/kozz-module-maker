@@ -18,6 +18,7 @@ export const createSendMessagePayload = (
 			isBlocked: false,
 			hostAdded: true,
 			isGroup: false,
+			isHostAccount: true,
 		},
 		platform: 'WA',
 		timestamp: new Date().getTime(),
