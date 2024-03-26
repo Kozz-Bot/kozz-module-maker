@@ -1,6 +1,6 @@
 import { MessageReceivedByGateway } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { createDeleteMessagePayload } from 'src/Message/PayloadCreation';
+import { createDeleteMessagePayload } from './../../PayloadCreation';
 
 export type ProcessedMessage = MessageReceivedByGateway & {
 	delete: (local?: boolean) => any;
