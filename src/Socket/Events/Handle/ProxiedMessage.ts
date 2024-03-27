@@ -16,6 +16,7 @@ export const onProxiedMessage = (
 	source: Source,
 	cb: (message: ProxiedMessageObject) => any
 ) => {
+	socket.removeAllListeners('proxied_message');
 	socket.on('proxied_message', payload => {
 		const proxiedMessageObject = createProxiedMessageOject(
 			socket,
