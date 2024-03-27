@@ -1,6 +1,5 @@
 import { ProxyRequestPayload, Source } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { onProxiedMessage } from '../Handle/ProxiedMessage';
 import { ProxiedMessageObject } from 'src/Message/ProxiedMessage';
 
 export type ProxyInitParams = {
@@ -32,7 +31,5 @@ export const requestProxy = (
 	socket: Socket,
 	proxyInitParams: ProxyInitParams
 ) => {
-	onProxiedMessage(socket, proxyInitParams.source, proxyInitParams.onMessage);
-
 	socket.emit('request_proxy', createProxyRequestPayload(proxyInitParams));
 };

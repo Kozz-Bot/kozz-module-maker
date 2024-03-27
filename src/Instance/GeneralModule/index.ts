@@ -9,6 +9,7 @@ import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
 import { introduce } from '../../Socket/Events/Emit/Introduction';
+import { onProxiedMessage } from 'src/Socket/Events/Handle/ProxiedMessage';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
@@ -50,6 +51,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 			);
 			introduce(socket, name, commands?.methods || {}, signature);
 			if (proxy) {
+				onProxiedMessage(socket, proxy.source, proxy.onMessage);
 				requestProxy(socket, {
 					address,
 					name,
