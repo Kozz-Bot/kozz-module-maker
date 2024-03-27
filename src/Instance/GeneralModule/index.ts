@@ -8,7 +8,7 @@ import { Source } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
-import { introduce } from 'src/Socket/Events/Emit/Introduction';
+import { introduce } from '../../Socket/Events/Emit/Introduction';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
