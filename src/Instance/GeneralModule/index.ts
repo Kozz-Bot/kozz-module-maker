@@ -8,6 +8,7 @@ import { Source } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
+import { introduce } from 'src/Socket/Events/Emit/Introduction';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
@@ -43,26 +44,29 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
 	const { socket, registerMethods } = connect(
+		() => {
+			console.log(
+				`Introducing ${name} to gateway on address ${address} with socketPath ${customSocketPath}`
+			);
+			introduce(socket, name, commands?.methods || {}, signature);
+			if (proxy) {
+				requestProxy(socket, {
+					address,
+					name,
+					...proxy,
+				});
+			}
+		},
 		address,
 		moduleUseFns,
 		templatePath || '',
 		name,
-		commands?.methods || {},
 		commands?.boundariesToHandle || [],
-		signature,
 		customSocketPath
 	);
 
 	if (commands?.methods) {
 		registerMethods(commands?.methods);
-	}
-
-	if (proxy) {
-		requestProxy(socket, {
-			address,
-			name,
-			...proxy,
-		});
 	}
 
 	const { removeResource, resourceMap, upsertResource } = createResourceMap();
