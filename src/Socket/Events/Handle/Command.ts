@@ -4,7 +4,7 @@ import { Method } from '../../..';
 import { createMessageObject } from '../../../Message';
 import { isArgsObjectValid } from '../../../Validator';
 import { normalizeString, runUse } from '../../../util';
-import { UseFn } from 'src/Instance/Common';
+import { UseFn } from '../../../Instance/Common';
 
 /**
  * Handles the command received. It will check if the boundary should have it's command handled,
@@ -42,6 +42,10 @@ export const onCommand = <
 
 		if (isArgsObjectValid(command.namedArgs || {}, actualMethod.args)) {
 			const updatedCommand = runUse(moduleUseFns, command);
+
+			if ('abort' in (updatedCommand.namedArgs ?? {})) {
+				return;
+			}
 
 			const message = createMessageObject(
 				socket,
