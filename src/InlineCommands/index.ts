@@ -24,4 +24,7 @@ export const tagMember = (id: string) => generalCommand('mention', { id });
 export const invisibleTagMember = (id: string) =>
 	generalCommand('invisiblemention', { id });
 
-export const tagEveryone = () => generalCommand('tageveryone');
+export const tagEveryone = (except: string[] = []) =>
+	generalCommand('tageveryone', {
+		except,
+	});
