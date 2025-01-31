@@ -103,6 +103,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 			revoke,
 		},
 		ask,
+		socket,
 	};
 
 	return instance;
