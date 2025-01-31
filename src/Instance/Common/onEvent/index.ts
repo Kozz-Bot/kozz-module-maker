@@ -31,7 +31,9 @@ export const onEvent = (socket: Socket, handlerId: string) => {
 			});
 		}
 
-		const id = crypto.randomUUID();
+		const id = Math.floor(Math.random() * 0x100000)
+			.toString(16)
+			.padStart(6, '0');
 
 		eventListeners
 			.find(listener => listener.name === evName)
