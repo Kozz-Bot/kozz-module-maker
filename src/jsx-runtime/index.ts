@@ -95,3 +95,5 @@ function renderNode(node: Child): string {
 
 	return '';
 }
+
+export * from './MessageTemplating';
