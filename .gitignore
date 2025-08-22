@@ -6,4 +6,4 @@ keys/*
 .npmrc
 
 # file for debug usage of the lib
-src/debugIndex.ts
+src/debugIndex.tsx

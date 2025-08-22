@@ -20,7 +20,7 @@ export const createSendMessagePayload = (
 			isGroup: false,
 			isHostAccount: true,
 		},
-		platform: 'WA',
+		platform: 'other',
 		timestamp: new Date().getTime(),
 		quoteId: undefined,
 		media,

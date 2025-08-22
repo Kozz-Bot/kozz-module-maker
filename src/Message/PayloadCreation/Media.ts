@@ -24,6 +24,7 @@ export const loadMediaFromPath = async (
 		sizeInBytes: Buffer.from(b64, 'base64').length,
 		transportType: 'b64',
 		stickerTags,
+		duration: 0,
 	};
 };
 
@@ -39,6 +40,7 @@ export const createMediaFromBuffer = (
 	sizeInBytes: buffer.length,
 	transportType: 'b64',
 	stickerTags,
+	duration: 0,
 });
 
 export const createMediaFromB64 = (
@@ -53,6 +55,7 @@ export const createMediaFromB64 = (
 	sizeInBytes: Buffer.from(b64, 'base64').length,
 	transportType: 'b64',
 	stickerTags,
+	duration: 0,
 });
 
 export const createMediaFromUrl = (
@@ -67,4 +70,5 @@ export const createMediaFromUrl = (
 	sizeInBytes: null,
 	transportType: 'url',
 	stickerTags,
+	duration: 0,
 });

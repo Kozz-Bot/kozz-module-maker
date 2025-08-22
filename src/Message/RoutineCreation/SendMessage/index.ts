@@ -8,12 +8,14 @@ export const sendMessageToContactOnRequesterObject = (
 	boundaryId: string
 ) => {
 	const sendMessage = (contactId: string, body: string) => {
-		const payload = createSendMessagePayload(handlerName, contactId, boundaryId, body);
-
-		socket.emit(
-			'send_message',
-			payload,
+		const payload = createSendMessagePayload(
+			handlerName,
+			contactId,
+			boundaryId,
+			body
 		);
+
+		socket.emit('send_message', payload);
 	};
 
 	sendMessage.withMedia = (
@@ -29,10 +31,7 @@ export const sendMessageToContactOnRequesterObject = (
 			media
 		);
 
-		socket.emit(
-			'send_message',
-			payload,
-		);
+		socket.emit('send_message', payload);
 	};
 
 	return sendMessage;
@@ -40,12 +39,14 @@ export const sendMessageToContactOnRequesterObject = (
 
 export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 	const sendMessage = (contactId: string, boundaryId: string, body: string) => {
-		const payload = createSendMessagePayload(handlerName, contactId, boundaryId, body);
-
-		socket.emit(
-			'send_message',
-			payload,
+		const payload = createSendMessagePayload(
+			handlerName,
+			contactId,
+			boundaryId,
+			body
 		);
+
+		socket.emit('send_message', payload);
 	};
 
 	sendMessage.withMedia = (
@@ -62,10 +63,7 @@ export const sendMessageToContact = (socket: Socket, handlerName: string) => {
 			media
 		);
 
-		socket.emit(
-			'send_message',
-			payload,
-		);
+		socket.emit('send_message', payload);
 	};
 
 	return sendMessage;
