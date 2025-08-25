@@ -5,7 +5,7 @@ import {
 	Source,
 } from 'kozz-types';
 import { Socket } from 'socket.io-client';
-import { createMessageObject } from '..';
+import { createMessageObject } from 'src/Message';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
 
 export type ProxiedMessageObject = ReturnType<typeof createProxiedMessageOject>;

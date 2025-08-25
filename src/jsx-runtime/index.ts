@@ -81,10 +81,14 @@ function renderNode(node: Child): string {
 
 	// Fragment
 	if (type === Fragment) {
-		return props.children
-			.map((childNode: Child) => renderNode(childNode))
-			.join('\n')
-			.trim();
+		if (!Array.isArray(props.children)) {
+			return renderNode(props.children);
+		} else {
+			return props.children
+				.map((childNode: Child) => renderNode(childNode))
+				.join('\n')
+				.trim();
+		}
 	}
 
 	// Intrinsic "tag" (string) -> reduce to text using mapping (or pass-through)
