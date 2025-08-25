@@ -27,6 +27,14 @@ export const Italic = createTemplatingComponent(italic);
 export const ListItem = createTemplatingComponent(listItem);
 export const Paragraph = createTemplatingComponent(paragraph);
 
+export const Line: Component<{}> = ({ children }) => {
+	return typeof children === 'string'
+		? children
+		: Array.isArray(children)
+		? `${children.join('')}`
+		: children?.toString();
+};
+
 export const List = ({ items }: { items: string | string[] }) => {
 	if (typeof items === 'string') return `- ${items}`;
 	return items.map(item => `- ${item}`).join('\n');
