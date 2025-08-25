@@ -1,21 +1,31 @@
+import {
+	bold,
+	code,
+	italic,
+	listItem,
+	monospace,
+	paragraph,
+	stroke,
+} from 'src/InlineCommands';
 import { type Component } from '.';
 
-const createTemplatingComponent =
-	(markup: string): Component<{}> =>
+export const createTemplatingComponent =
+	(command: (text: string) => string): Component<{}> =>
 	({ children }) => {
 		return typeof children === 'string'
-			? `${markup}${children}${markup}`
+			? `${command(children)}`
 			: Array.isArray(children)
-			? `${markup}${children.join('')}${markup}`
+			? `${command(children.join(''))}`
 			: children?.toString();
 	};
 
-export const Bold = createTemplatingComponent('*');
-export const Code = createTemplatingComponent('```');
-export const Line = createTemplatingComponent('');
-export const Monospace = createTemplatingComponent('`');
-export const Stroke = createTemplatingComponent('~');
-export const Italic = createTemplatingComponent('_');
+export const Bold = createTemplatingComponent(bold);
+export const Code = createTemplatingComponent(code);
+export const Monospace = createTemplatingComponent(monospace);
+export const Stroke = createTemplatingComponent(stroke);
+export const Italic = createTemplatingComponent(italic);
+export const ListItem = createTemplatingComponent(listItem);
+export const Paragraph = createTemplatingComponent(paragraph);
 
 export const List = ({ items }: { items: string | string[] }) => {
 	if (typeof items === 'string') return `- ${items}`;

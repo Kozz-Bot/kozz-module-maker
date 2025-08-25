@@ -22,7 +22,7 @@ export const onProxiedMessage = (
 			socket,
 			source,
 			payload,
-			source.split('/')[0]
+			source.split('/')[0]!
 		);
 		cb(proxiedMessageObject);
 	});

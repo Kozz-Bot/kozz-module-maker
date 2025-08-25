@@ -1,5 +1,5 @@
-import { Command } from 'kozz-types';
-import { UseFn } from '../Instance/Common';
+import { type Command } from 'kozz-types';
+import { type UseFn } from '../Instance/Common';
 import fs from 'fs/promises';
 import crypto from 'crypto';
 
@@ -47,6 +47,7 @@ export const signInBrowser = <T extends Record<string, any>>(payload: T) => {
 			.then((privateKey: string) => {
 				const signature = crypto.sign(
 					'sha256',
+					//@ts-ignore
 					Buffer.from(JSON.stringify(payload, undefined, '  ')),
 					{ key: privateKey, padding: crypto.constants.RSA_PKCS1_PSS_PADDING }
 				);
@@ -78,6 +79,7 @@ export const signInNodeEnvironment = async <T extends Record<string, any>>(
 
 	const signature = crypto.sign(
 		'sha256',
+		//@ts-ignore
 		Buffer.from(JSON.stringify(payload, undefined, '  ')),
 		{ key: privateKey, padding: crypto.constants.RSA_PKCS1_PSS_PADDING }
 	);

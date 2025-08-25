@@ -1,6 +1,5 @@
 import { Socket } from 'socket.io-client';
-import { ForwardedEventPayload } from 'kozz-types';
-import crypto from 'crypto';
+import { type ForwardedEventPayload } from 'kozz-types';
 
 type OnEvent = {
 	name: string;

@@ -3,7 +3,7 @@
  * @param commandName
  * @param data
  */
-export const generalCommand = (
+export const inlineCommand = (
 	commandName: string,
 	data: Record<string, any> = {}
 ) => {
@@ -14,7 +14,7 @@ export const generalCommand = (
  * Tags someone in the message. The tag will be visible for everyone
  * @param id
  */
-export const tagMember = (id: string) => generalCommand('mention', { id });
+export const tagMember = (id: string) => inlineCommand('mention', { id });
 
 /**
  * Tags someone in the message. The tag WILL NOT be visible for anyone
@@ -22,9 +22,52 @@ export const tagMember = (id: string) => generalCommand('mention', { id });
  * @returns
  */
 export const invisibleTagMember = (id: string) =>
-	generalCommand('invisiblemention', { id });
+	inlineCommand('invisiblemention', { id });
 
+/**
+ * Invisibly tag everyone
+ * @param except
+ * @returns
+ */
 export const tagEveryone = (except: string[] = []) =>
-	generalCommand('tageveryone', {
+	inlineCommand('tageveryone', {
 		except,
 	});
+
+/**
+ * Formats text as bold.
+ * @param text The text to be formatted as bold
+ */
+export const bold = (text: string) => inlineCommand('bold', { text });
+
+/**
+ * Formats text as inline code.
+ * @param text The text to be formatted as code
+ */
+export const code = (text: string) => inlineCommand('code', { text });
+
+/**
+ * Formats text as monospace.
+ * @param text The text to be formatted as monospace
+ */
+export const monospace = (text: string) => inlineCommand('monospace', { text });
+
+/**
+ * Formats text with stroke effect.
+ * @param text The text to be formatted with stroke
+ */
+export const stroke = (text: string) => inlineCommand('stroke', { text });
+
+/**
+ * Formats text as italic.
+ * @param text The text to be formatted as italic
+ */
+export const italic = (text: string) => inlineCommand('italic', { text });
+
+/**
+ * Creates a list item.
+ * @param text The content of the list item
+ */
+export const listItem = (text: string) => inlineCommand('listItem', { text });
+
+export const paragraph = (text: string) => inlineCommand('paragraph', { text });

@@ -1,4 +1,4 @@
-import { Media, SendMessagePayload } from 'kozz-types';
+import type { Media, SendMessagePayload } from 'kozz-types';
 
 export const createSendMessagePayload = (
 	handlerName: string,

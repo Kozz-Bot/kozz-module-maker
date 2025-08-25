@@ -7,12 +7,19 @@
 		"moduleDetection": "force",
 		"jsx": "preserve",
 		"allowJs": true,
+		"declaration": true,
+
+		"rootDir": "./src",
+		"baseUrl": ".",
+		"paths": {
+			"src/*": ["src/*"]
+		},
 
 		// Bundler mode
 		"moduleResolution": "bundler",
-		"verbatimModuleSyntax": true,
-		"noEmit": true,
+		// "verbatimModuleSyntax": true,
 		"outDir": "dist",
+		"emitDeclarationOnly": true,
 
 		// Best practices
 		"strict": true,
@@ -25,5 +32,6 @@
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
 		"noPropertyAccessFromIndexSignature": false
-	}
+	},
+	"exclude": ["./scripts/*", "./dist/*"]
 }

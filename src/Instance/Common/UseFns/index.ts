@@ -1,4 +1,4 @@
-import { Command } from 'kozz-types';
+import { type Command } from 'kozz-types';
 
 // [TODO] Better type for this
 type HandlerOrProxy = any;

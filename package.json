@@ -1,13 +1,13 @@
 {
 	"name": "kozz-module-maker",
-	"version": "0.2.2",
+	"version": "0.2.4",
 	"description": "Library to create new module for the Kozz-Bot protocol",
 	"main": "./dist",
 	"license": "MIT",
 	"scripts": {
 		"build": "babel ./src --out-dir ./dist --extensions .ts,.tsx --copy-files",
-		"dev": "bun run build -- --watch & nodemon --watch dist --exec 'bun run dist/debugIndex.js'",
-		"prepublish": "build"
+		"dev": "npm run build -- --watch & nodemon --watch dist --exec 'npm run dist/debugIndex.js'",
+		"publish": "tsc && bun run build && npm publish"
 	},
 	"peerDependencies": {
 		"typescript": "^5.9.2"

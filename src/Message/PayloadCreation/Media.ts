@@ -1,5 +1,5 @@
 import fs from 'fs/promises';
-import { Media } from 'kozz-types';
+import { type Media } from 'kozz-types';
 
 export type MimeType =
 	| 'video/mp4'

@@ -1,10 +1,10 @@
-import { Method, TypeString } from '../../Schema';
+import type { Method, TypeString } from '../../Schema';
 import { createResourceMap, createUseFns, onEvent } from '../Common';
 import { connect } from '../../Socket';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
 import { requestProxy } from '../../Socket/Events/Emit/RequestProxy';
-import { ProxiedMessageObject } from '../../Message/ProxiedMessage';
-import { Source } from 'kozz-types';
+import { type ProxiedMessageObject } from '../../Message/ProxiedMessage';
+import { type Source } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
