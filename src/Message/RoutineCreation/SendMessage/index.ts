@@ -18,6 +18,21 @@ export const sendMessageToContactOnRequesterObject = (
 		socket.emit('send_message', payload);
 	};
 
+	sendMessage.toOtherBoundary = (
+		otherBoundary: string,
+		contactId: string,
+		body: string
+	) => {
+		const payload = createSendMessagePayload(
+			handlerName,
+			contactId,
+			otherBoundary,
+			body
+		);
+
+		socket.emit('send_message', payload);
+	};
+
 	sendMessage.withMedia = (
 		contactId: string,
 		caption: string,

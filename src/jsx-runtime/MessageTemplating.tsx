@@ -37,7 +37,7 @@ export const Line: Component<{}> = ({ children }) => {
 
 export const List = ({ items }: { items: string | string[] }) => {
 	if (typeof items === 'string') return `- ${items}`;
-	return items.map(item => `- ${item}`).join('\n');
+	return items.map(item => ListItem({ children: item })).join('\n');
 };
 
 /**

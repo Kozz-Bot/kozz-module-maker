@@ -34,40 +34,46 @@ export const tagEveryone = (except: string[] = []) =>
 		except,
 	});
 
+const textStylingCommand = (variant: string) => (text: string) =>
+	`${inlineCommand('begin_style', { variant })}${text}${inlineCommand(
+		'end_style',
+		{ variant }
+	)}`;
+
 /**
  * Formats text as bold.
  * @param text The text to be formatted as bold
  */
-export const bold = (text: string) => inlineCommand('bold', { text });
+export const bold = textStylingCommand('bold');
 
 /**
  * Formats text as inline code.
  * @param text The text to be formatted as code
  */
-export const code = (text: string) => inlineCommand('code', { text });
+export const code = textStylingCommand('code');
 
 /**
  * Formats text as monospace.
  * @param text The text to be formatted as monospace
  */
-export const monospace = (text: string) => inlineCommand('monospace', { text });
+export const monospace = textStylingCommand('monospace');
 
 /**
  * Formats text with stroke effect.
  * @param text The text to be formatted with stroke
  */
-export const stroke = (text: string) => inlineCommand('stroke', { text });
+export const stroke = textStylingCommand('stroke');
 
 /**
  * Formats text as italic.
  * @param text The text to be formatted as italic
  */
-export const italic = (text: string) => inlineCommand('italic', { text });
+export const italic = textStylingCommand('italic');
 
 /**
  * Creates a list item.
  * @param text The content of the list item
  */
-export const listItem = (text: string) => inlineCommand('listItem', { text });
+export const listItem = textStylingCommand('listItem');
 
-export const paragraph = (text: string) => inlineCommand('paragraph', { text });
+export const paragraph = textStylingCommand('paragraph');
