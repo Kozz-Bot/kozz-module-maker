@@ -4,7 +4,7 @@ import { connect } from '../../Socket';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
 import { requestProxy } from '../../Socket/Events/Emit/RequestProxy';
 import { type ProxiedMessageObject } from '../../Message/ProxiedMessage';
-import { type Source } from 'kozz-types';
+import { type CommandAlias, type Source } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
@@ -23,6 +23,7 @@ export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	commands?: {
 		boundariesToHandle: string[];
 		methods?: Record<string, Method<Methods>>;
+		aliases?: CommandAlias[];
 	};
 
 	proxy?: {
@@ -49,7 +50,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 			console.log(
 				`Introducing ${name} to gateway on address ${address} with socketPath ${customSocketPath}`
 			);
-			introduce(socket, name, commands?.methods || {}, signature);
+			introduce(socket, name, commands?.methods || {}, commands?.aliases, signature);
 			if (proxy) {
 				onProxiedMessage(socket, proxy.source, proxy.onMessage);
 				requestProxy(socket, {

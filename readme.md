@@ -146,6 +146,43 @@ createHandlerInstance({
 });
 ```
 
+### Command aliases
+
+Handlers can announce aliases in the introduction payload. The gateway resolves
+the alias before routing the command, so no extra handler module is required.
+
+```typescript
+createModule({
+	name: 'ping',
+	address: 'gateway_address',
+	commands: {
+		boundariesToHandle: ['my_boundary', 'my-other-boundary'],
+		aliases: [
+			{
+				name: 'pong',
+				target: {
+					method: 'default',
+					immediateArg: null,
+				},
+			},
+		],
+		methods: {
+			...createMethod(
+				'default',
+				requester => {
+					requester.reply('Pong!');
+				},
+				{}
+			),
+		},
+	},
+});
+```
+
+If `target.module` is omitted, the alias targets the handler that declared it.
+Arguments typed after the alias are appended to the target `immediateArg`, and
+named args from the message override named args declared in the alias target.
+
 ## From template
 
 You cand send or reply to messages using templates. Instead of relying on strings hard-coded in the methods or callbacks, you can create a simpler version of .MD files and read message templates direct from them. It is still in its early stages so you can bet the .md parser will fail. Use at your own risk.

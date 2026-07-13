@@ -1,4 +1,8 @@
-import { HandlerIntroduction, SignaturelessPayload } from 'kozz-types/dist';
+import {
+	CommandAlias,
+	HandlerIntroduction,
+	SignaturelessPayload,
+} from 'kozz-types/dist';
 import { Socket } from 'socket.io-client';
 import { Method, TypeString } from '../../../Schema';
 import { signPayload } from '../../../util';
@@ -16,9 +20,11 @@ export const introduce = async <
 	socket: Socket,
 	handlerName: string,
 	methods: T,
+	aliases: CommandAlias[] = [],
 	signature?: string
 ) => {
 	const payload: SignaturelessPayload<HandlerIntroduction> = {
+		aliases,
 		methods: Object.keys(methods),
 		name: handlerName,
 		role: 'handler',
