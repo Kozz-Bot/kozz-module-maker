@@ -1,6 +1,6 @@
 {
 	"name": "kozz-module-maker",
-	"version": "0.3.1",
+	"version": "0.4.0",
 	"description": "Library to create new module for the Kozz-Bot protocol",
 	"main": "./dist",
 	"license": "MIT",
@@ -24,7 +24,7 @@
 		"babel": "^6.23.0",
 		"babel-plugin-module-resolver": "^5.0.2",
 		"concurrently": "^7.6.0",
-		"kozz-types": "^0.1.23",
+		"kozz-types": "^0.2.0",
 		"nodemon": "^2.0.22"
 	},
 	"dependencies": {

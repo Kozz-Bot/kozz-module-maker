@@ -1,9 +1,9 @@
-import { Source } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 import {
 	ProxiedMessageObject,
 	createProxiedMessageOject,
 } from '../../../Message/ProxiedMessage';
+import { ProxySourceInput, normalizeProxySource } from '../Emit/RequestProxy';
 
 /**
  * Handles the message proxied to the handler
@@ -13,16 +13,18 @@ import {
  */
 export const onProxiedMessage = (
 	socket: Socket,
-	source: Source,
+	source: ProxySourceInput,
+	handlerName: string,
 	cb: (message: ProxiedMessageObject) => any
 ) => {
+	const normalizedSource = normalizeProxySource(source);
 	socket.removeAllListeners('proxied_message');
 	socket.on('proxied_message', payload => {
 		const proxiedMessageObject = createProxiedMessageOject(
 			socket,
-			source,
+			normalizedSource,
 			payload,
-			source.split('/')[0]!
+			handlerName
 		);
 		cb(proxiedMessageObject);
 	});

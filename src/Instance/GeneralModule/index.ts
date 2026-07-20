@@ -2,9 +2,12 @@ import type { Method, TypeString } from '../../Schema';
 import { createResourceMap, createUseFns, onEvent } from '../Common';
 import { connect } from '../../Socket';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
-import { requestProxy } from '../../Socket/Events/Emit/RequestProxy';
+import {
+	ProxySourceInput,
+	requestProxy,
+} from '../../Socket/Events/Emit/RequestProxy';
 import { type ProxiedMessageObject } from '../../Message/ProxiedMessage';
-import { type CommandAlias, type Source } from 'kozz-types';
+import { type CommandAlias } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
@@ -13,6 +16,7 @@ import { onProxiedMessage } from '../../Socket/Events/Handle/ProxiedMessage';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
+	namespace?: string;
 
 	address: string;
 	customSocketPath?: string;
@@ -27,10 +31,9 @@ export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	};
 
 	proxy?: {
-		source: Source;
-		destinationOverride?: string;
+		source: ProxySourceInput;
+		subscriber?: string;
 		onMessage: (message: ProxiedMessageObject) => any;
-		keepAliveProxy?: boolean;
 	};
 };
 
@@ -42,17 +45,25 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	signature,
 	templatePath,
 	customSocketPath,
+	namespace = process.env.KOZZ_NAMESPACE || process.env.NAMESPACE || 'default',
 }: ControllerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
 
 	const { socket, registerMethods } = connect(
 		() => {
 			console.log(
-				`Introducing ${name} to gateway on address ${address} with socketPath ${customSocketPath}`
+				`Introducing ${name} to gateway on address ${address} with socketPath ${customSocketPath} in namespace ${namespace}`
 			);
-			introduce(socket, name, commands?.methods || {}, commands?.aliases, signature);
+			introduce(
+				socket,
+				name,
+				commands?.methods || {},
+				commands?.aliases,
+				namespace,
+				signature
+			);
 			if (proxy) {
-				onProxiedMessage(socket, proxy.source, proxy.onMessage);
+				onProxiedMessage(socket, proxy.source, proxy.subscriber || name, proxy.onMessage);
 				requestProxy(socket, {
 					address,
 					name,
@@ -89,6 +100,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 		requester: {
 			id: name,
 			type: 'Handler',
+			namespace,
 		},
 	});
 

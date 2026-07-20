@@ -21,12 +21,14 @@ export const introduce = async <
 	handlerName: string,
 	methods: T,
 	aliases: CommandAlias[] = [],
+	namespace?: string,
 	signature?: string
 ) => {
 	const payload: SignaturelessPayload<HandlerIntroduction> = {
 		aliases,
 		methods: Object.keys(methods),
 		name: handlerName,
+		namespace,
 		role: 'handler',
 	};
 

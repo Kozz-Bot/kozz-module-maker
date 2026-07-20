@@ -2,7 +2,7 @@ import {
 	Command,
 	MessageReceived,
 	MessageReceivedByGateway,
-	Source,
+	ProxySource,
 } from 'kozz-types';
 import { Socket } from 'socket.io-client';
 import { createMessageObject } from 'src/Message';
@@ -12,7 +12,7 @@ export type ProxiedMessageObject = ReturnType<typeof createProxiedMessageOject>;
 
 export const createProxiedMessageOject = (
 	socket: Socket,
-	source: Source,
+	source: ProxySource,
 	message: MessageReceivedByGateway,
 	handlerName: string
 ) => {
