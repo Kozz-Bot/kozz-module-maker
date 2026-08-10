@@ -3,16 +3,15 @@ import { createResourceMap, createUseFns, onEvent } from '../Common';
 import { connect } from '../../Socket';
 import { revokeProxy } from '../../Socket/Events/Emit/RevokeProxy';
 import {
-	ProxySourceInput,
+	type ProxyConfig,
 	requestProxy,
 } from '../../Socket/Events/Emit/RequestProxy';
-import { type ProxiedMessageObject } from '../../Message/ProxiedMessage';
 import { type CommandAlias } from 'kozz-types';
 import { onAskResource } from '../../Socket/Events/Handle/AskResource';
 import { sendMessageToContact } from '../../Message/RoutineCreation/SendMessage';
 import { createAskResource } from '../../Message/RoutineCreation/AskResource';
 import { introduce } from '../../Socket/Events/Emit/Introduction';
-import { onProxiedMessage } from '../../Socket/Events/Handle/ProxiedMessage';
+import { onProxiedMessages } from '../../Socket/Events/Handle/ProxiedMessage';
 
 export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 	name: string;
@@ -30,11 +29,7 @@ export type ControllerInitParams<Methods extends Record<string, TypeString>> = {
 		aliases?: CommandAlias[];
 	};
 
-	proxy?: {
-		source: ProxySourceInput;
-		subscriber?: string;
-		onMessage: (message: ProxiedMessageObject) => any;
-	};
+	proxy?: ProxyConfig | ProxyConfig[];
 };
 
 export const createModule = <Methods extends Record<string, TypeString>>({
@@ -48,6 +43,8 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	namespace = process.env.KOZZ_NAMESPACE || process.env.NAMESPACE || 'default',
 }: ControllerInitParams<Methods>) => {
 	const { moduleUseFns, use } = createUseFns(() => instance);
+	const proxies = proxy ? (Array.isArray(proxy) ? proxy : [proxy]) : [];
+	let removeProxiedMessagesListener = () => {};
 
 	const { socket, registerMethods } = connect(
 		() => {
@@ -62,12 +59,15 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 				namespace,
 				signature
 			);
-			if (proxy) {
-				onProxiedMessage(socket, proxy.source, proxy.subscriber || name, proxy.onMessage);
-				requestProxy(socket, {
-					address,
-					name,
-					...proxy,
+			if (proxies.length) {
+				removeProxiedMessagesListener();
+				removeProxiedMessagesListener = onProxiedMessages(socket, proxies, name);
+				proxies.forEach(proxyConfig => {
+					requestProxy(socket, {
+						address,
+						name,
+						...proxyConfig,
+					})
 				});
 			}
 		},
@@ -89,9 +89,9 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	const sendMessage = sendMessageToContact(socket, name);
 
 	let revoke = () => {
-		if (proxy) {
-			revokeProxy(socket, proxy.source);
-		}
+		proxies.forEach(proxyConfig =>
+			revokeProxy(socket, proxyConfig.source, proxyConfig.subscriber || name)
+		);
 	};
 
 	const { on } = onEvent(socket, name);

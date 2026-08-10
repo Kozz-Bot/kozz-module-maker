@@ -4,13 +4,16 @@ import { ProxiedMessageObject } from 'src/Message/ProxiedMessage';
 
 export type ProxySourceInput = ProxySource | string;
 
-export type ProxyInitParams = {
-	address: string;
+export type ProxyConfig = {
 	source: ProxySourceInput;
-	name: string;
 	subscriber?: string;
-	signature?: string;
 	onMessage: (message: ProxiedMessageObject) => any;
+};
+
+export type ProxyInitParams = ProxyConfig & {
+	address: string;
+	name: string;
+	signature?: string;
 };
 
 export const normalizeProxySource = (source: ProxySourceInput): ProxySource => {
