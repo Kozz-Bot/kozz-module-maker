@@ -7,7 +7,11 @@ export type MimeType =
 	| 'image'
 	| 'video'
 	| 'video/mpeg'
-	| 'audio/webm';
+	| 'audio/webm'
+	| 'audio/ogg; codecs=opus'
+	| 'audio/mpeg'
+	| 'audio/mp4'
+	| 'audio/wav';
 
 export const loadMediaFromPath = async (
 	filePath: string,

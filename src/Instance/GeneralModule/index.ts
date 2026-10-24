@@ -62,12 +62,15 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 			if (proxies.length) {
 				removeProxiedMessagesListener();
 				removeProxiedMessagesListener = onProxiedMessages(socket, proxies, name);
-				proxies.forEach(proxyConfig => {
-					requestProxy(socket, {
-						address,
-						name,
-						...proxyConfig,
-					})
+				// Subscribe after registration so the gateway can resolve this module.
+				socket.once('introduction_ack', (ack: { success?: boolean; error?: string }) => {
+					if (!ack?.success) {
+						console.warn(`Could not register proxy for ${name}: ${ack?.error || 'introduction rejected'}`);
+						return;
+					}
+					proxies.forEach(proxyConfig => {
+						requestProxy(socket, { address, name, ...proxyConfig });
+					});
 				});
 			}
 		},
@@ -110,7 +113,10 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 		sendMessage,
 		resources: {
 			removeResource,
-			upsertResource,
+			upsertResource: (...args: Parameters<typeof upsertResource>) => {
+				upsertResource(...args);
+				return instance;
+			},
 		},
 		proxy: {
 			revoke,

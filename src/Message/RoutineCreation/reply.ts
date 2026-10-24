@@ -5,6 +5,7 @@ import { replyWithText } from '../PayloadCreation';
 import { withMedia } from './Reply/WithMedia';
 import { withSticker } from './Reply/WithSticker';
 import { withTemplate } from './Reply/WithTemplate';
+import { withButtons } from './Reply/WithButtons';
 
 export const createReply = (
 	socket: Socket,
@@ -18,6 +19,7 @@ export const createReply = (
 	reply.withSticker = withSticker(socket, messagePayload);
 	reply.withTemplate = withTemplate(socket, messagePayload, templatePath);
 	reply.withMedia = withMedia(socket, messagePayload);
+	reply.withButtons = withButtons(socket, messagePayload);
 
 	return reply;
 };
