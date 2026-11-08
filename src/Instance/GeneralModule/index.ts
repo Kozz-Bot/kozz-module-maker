@@ -82,9 +82,7 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 		customSocketPath
 	);
 
-	if (commands?.methods) {
-		registerMethods(commands?.methods);
-	}
+	const executeCommand = registerMethods(commands?.methods || {});
 
 	const { removeResource, resourceMap, upsertResource } = createResourceMap();
 	onAskResource(socket, resourceMap);
@@ -108,6 +106,10 @@ export const createModule = <Methods extends Record<string, TypeString>>({
 	});
 
 	const instance = {
+		name,
+		commandMethods: commands?.methods || {},
+		// Local invocation only: uses the same validation and middleware as socket commands.
+		executeCommand,
 		use,
 		on,
 		sendMessage,

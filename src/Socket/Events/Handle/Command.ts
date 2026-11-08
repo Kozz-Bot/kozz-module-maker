@@ -26,7 +26,7 @@ export const onCommand = <
 	templatePath: string,
 	boundariesToHandle: string[]
 ) => {
-	socket.on('command', (command: Command) => {
+	const execute = async (command: Command) => {
 		// If the handler doesnt want to handle commands for the provided boundary
 		if (
 			!boundariesToHandle.includes(command.boundaryName) &&
@@ -61,7 +61,8 @@ export const onCommand = <
 				emote: '✔',
 			});
 
-			actualMethod.func(message, updatedCommand.namedArgs || {});
+			await actualMethod.func(message, updatedCommand.namedArgs || {});
+			return { executed: true };
 		} else {
 			socket.emit('react_message', {
 				messageId: command.message.id,
@@ -69,5 +70,10 @@ export const onCommand = <
 				emote: '❌',
 			});
 		}
+		return { executed: false };
+	};
+	socket.on('command', command => {
+		void execute(command).catch(() => console.warn(`[${handlerName}] Command execution failed`));
 	});
+	return execute;
 };
